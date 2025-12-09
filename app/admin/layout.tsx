@@ -1,0 +1,48 @@
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
+import { verifySessionToken } from '@/app/lib/auth'
+import Link from 'next/link'
+
+export default async function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const token = cookies().get('admin_session')?.value
+  const user = token ? await verifySessionToken(token) : null
+
+  if (!user) {
+    redirect('/login')
+  }
+
+  return (
+    <div className="min-h-screen flex bg-slate-950">
+      <aside className="w-64 border-r border-slate-800 bg-slate-950/60 backdrop-blur flex flex-col">
+        <div className="px-4 py-4 border-b border-slate-800">
+          <div className="text-sm font-semibold">MiniApp Admin</div>
+          <div className="text-[11px] text-slate-400">Signed in as {user.username}</div>
+        </div>
+        <nav className="flex-1 px-2 py-3 text-sm space-y-1">
+          <Link href="/admin" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
+            📊 Dashboard
+          </Link>
+          <Link href="/admin/announcements" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
+            📢 Announcements
+          </Link>
+          <Link href="/admin/rewards" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
+            🎁 Rewards
+          </Link>
+          <Link href="/admin/settings" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
+            ⚙️ Settings
+          </Link>
+        </nav>
+        <div className="px-4 py-3 border-t border-slate-800 text-[11px] text-slate-500">
+          MiniApp Admin Kit • Local-only demo auth
+        </div>
+      </aside>
+      <main className="flex-1 min-h-screen bg-slate-900/40">
+        <div className="max-w-5xl mx-auto px-6 py-5">{children}</div>
+      </main>
+    </div>
+  )
+}

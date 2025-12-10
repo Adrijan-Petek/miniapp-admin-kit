@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export interface Settings {
   themeColor: string
@@ -19,8 +19,23 @@ export function useSettings() {
     frontendEditMode: false
   })
 
+  useEffect(() => {
+    const saved = localStorage.getItem('miniapp-settings')
+    if (saved) {
+      try {
+        setSettings(JSON.parse(saved))
+      } catch (e) {
+        console.error('Failed to parse settings', e)
+      }
+    }
+  }, [])
+
   const updateSetting = <K extends keyof Settings>(key: K, value: Settings[K]) => {
-    setSettings(prev => ({ ...prev, [key]: value }))
+    setSettings(prev => {
+      const newSettings = { ...prev, [key]: value }
+      localStorage.setItem('miniapp-settings', JSON.stringify(newSettings))
+      return newSettings
+    })
   }
 
   return {

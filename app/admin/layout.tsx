@@ -17,7 +17,7 @@ export default async function AdminLayout({
 
   return (
     <div className="min-h-screen flex bg-slate-950">
-      <aside className="w-64 border-r border-slate-800 bg-slate-950/60 backdrop-blur flex flex-col">
+      <aside className="w-64 border-r border-slate-800 bg-slate-950/60 flex flex-col">
         <div className="px-4 py-4 border-b border-slate-800">
           <div className="text-sm font-semibold">MiniApp Admin</div>
           <div className="text-[11px] text-slate-400">Signed in as {user.username}</div>
@@ -45,8 +45,9 @@ export default async function AdminLayout({
             ⚙️ Settings
           </Link>
         </nav>
-        <div className="px-4 py-3 border-t border-slate-800 text-[11px] text-slate-500">
-          MiniApp Admin Kit • Created by Adrijan Petek
+        <div className="px-4 py-3 border-t border-slate-800 text-[11px] text-slate-500 flex justify-between items-center">
+          <span>MiniApp Admin Kit • Created by Adrijan Petek</span>
+          <a href="/api/logout" className="text-slate-400 hover:text-slate-200">Logout</a>
         </div>
       </aside>
       <main className="flex-1 min-h-screen bg-slate-900/40">

@@ -1,22 +1,119 @@
 # MiniApp Admin Kit
 
-A complete, minimal **admin panel starter** for mini apps / GameFi projects (like Joybit),
-built with **Next.js 14 (App Router) + Tailwind CSS**.
+A professional, full-stack admin panel template for managing mini-apps, built with Next.js, TypeScript, and Tailwind CSS. Ready for Farcaster integration, wallet connect, and rapid mini-app development.
 
-This kit gives you:
+**Created by Adrijan Petek**
 
-- 🔐 Admin login (username + password from env)
-- 📊 Protected `/admin` dashboard layout
-- 📢 Announcements manager (for in-app/mini app messages)
-- 🎁 Rewards batch editor (for Treasury / contract payouts)
-- ⚙️ Settings page explaining how to wire into your own backend
-- ✅ GitHub Actions workflow for build checks
+## ✨ Features
 
-It is intentionally backend-agnostic: you plug in your own APIs, DB, or smart
-contract calls behind it.
+### 🎛️ Admin Panel
+- **Dashboard**: Overview of treasury, announcements, rewards, and mini-apps with live stats
+- **Announcements Manager**: Scrolling announcements with live preview, add/edit/delete, character limits
+- **Level Rewards Manager**: Configure TOKEN rewards for levels 1-1000, visual grid, pending changes
+- **Mini Apps Manager**: Manage your mini-app ecosystem with status toggles
+- **Treasury Management**: ETH/ERC20 balances, withdrawals, admin controls, multi-token support
+- **Leaderboard**: Sync with Farcaster profiles, credit rewards to top players
+- **Settings**: Full theme customization (colors, fonts, logos), game parameters, access control
 
-> ⚠️ This is a starter kit. Auth is **simple** (single admin user, JWT cookie).
-> For production, you should harden it (rate limiting, stronger secrets, SSO, etc.).
+### 🎮 Game Management
+- **Match-3 Game**: Play fees, booster prices (single/packs)
+- **Card Game**: Play fees, win rewards
+- **Daily Claim**: Base rewards, streak bonuses
+
+### 🔗 Integrations Ready
+- **Farcaster**: Profile sync, token metadata, auth kit
+- **Wallet Connect**: Web3Modal integration
+- **Ethereum**: Wagmi hooks for blockchain interactions
+- **Smart Contracts**: Pre-configured contract addresses
+
+### 🎨 Professional UI
+- Dark theme with customizable colors and fonts
+- Responsive design with dropdowns and smooth transitions
+- Emoji icons and professional layout
+- Frontend edit mode for direct page customization
+
+## 🚀 Quick Start
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Adrijan-Petek/miniapp-admin-kit.git
+   cd miniapp-admin-kit
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Set environment variables**
+   Create `.env.local`:
+   ```bash
+   ADMIN_USERNAME="admin"
+   ADMIN_PASSWORD="your-secure-password"
+   ADMIN_JWT_SECRET="your-long-random-jwt-secret"
+   ```
+
+4. **Run development server**
+   ```bash
+   npm run dev
+   ```
+
+5. **Access the app**
+   - Public page: `http://localhost:3000`
+   - Admin login: Click "Admin Login" or go to `/login`
+   - Default credentials: `admin` / `password`
+
+## Configuration
+
+### Auth Settings
+- Single admin user authentication via JWT
+- Environment-based credentials
+
+### Theme Customization
+- Color picker for theme color
+- Font family selection
+- Logo and background image URLs
+- Admin access mode (owner/admins)
+- Frontend edit mode toggle
+
+### Game Settings
+- Match-3: Play fees, booster prices
+- Card Game: Play fees, win rewards
+- Daily Claim: Base rewards, streak bonuses
+
+## Hooks
+
+The project includes reusable hooks for all data management:
+
+- `useTreasury()`: Treasury balances and withdrawals
+- `useAnnouncements()`: Announcement management
+- `useLevelRewards()`: Level reward configuration
+- `useLeaderboard()`: Leaderboard and rewards
+- `useTokenManagement()`: Multi-token support
+- `useAdminManagement()`: Admin controls
+- `useSettings()`: Theme and app settings
+- `useGameSettings()`: Game parameters
+
+## API Integration
+
+Wire the hooks to your backend APIs:
+
+- Announcements: Connect to Upstash KV or database
+- Rewards: Integrate with Treasury smart contracts
+- Leaderboard: Sync with Farcaster profiles
+- Tokens: ERC20 contract interactions
+
+## Deployment
+
+Deploy as a private admin panel:
+
+- Vercel (recommended)
+- Private URL access
+- Restrict by IP/VPN/SSO
+
+## License
+
+Created by Adrijan Petek - Professional mini-app admin template
 
 ---
 

@@ -1,4 +1,18 @@
+'use client'
+
+import { useTreasury } from '@/lib/hooks/useTreasury'
+import { useAnnouncements } from '@/lib/hooks/useAnnouncements'
+import { useLevelRewards } from '@/lib/hooks/useLevelRewards'
+import { useGameSettings } from '@/lib/hooks/useGameSettings'
+
 export default function AdminDashboardPage() {
+  const { data: treasury } = useTreasury()
+  const { announcements } = useAnnouncements()
+  const { getStats } = useLevelRewards()
+  const { settings: gameSettings } = useGameSettings()
+
+  const rewardStats = getStats()
+
   return (
     <div className="space-y-4">
       <header>
@@ -8,21 +22,26 @@ export default function AdminDashboardPage() {
         </p>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
         <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-3">
           <div className="text-xs text-slate-400 mb-1">Announcements</div>
-          <div className="text-lg font-semibold">5</div>
+          <div className="text-lg font-semibold">{announcements.length}</div>
           <div className="text-[11px] text-slate-500">Active mini app announcements</div>
         </div>
         <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-3">
-          <div className="text-xs text-slate-400 mb-1">Reward presets</div>
-          <div className="text-lg font-semibold">3</div>
-          <div className="text-[11px] text-slate-500">Configured reward templates</div>
+          <div className="text-xs text-slate-400 mb-1">Level Rewards</div>
+          <div className="text-lg font-semibold">{rewardStats.levelsWithRewards}</div>
+          <div className="text-[11px] text-slate-500">Configured level templates</div>
         </div>
         <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-3">
-          <div className="text-xs text-slate-400 mb-1">Mini apps</div>
+          <div className="text-xs text-slate-400 mb-1">Mini Apps</div>
           <div className="text-lg font-semibold">2</div>
           <div className="text-[11px] text-slate-500">Match-3, Card Game (example)</div>
+        </div>
+        <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-3">
+          <div className="text-xs text-slate-400 mb-1">Treasury ETH</div>
+          <div className="text-lg font-semibold">{treasury.ethBalance.slice(0, 8)}...</div>
+          <div className="text-[11px] text-slate-500">ETH Balance</div>
         </div>
       </div>
 

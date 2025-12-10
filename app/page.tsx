@@ -1,17 +1,30 @@
-import { redirect } from 'next/navigation'
-import { cookies } from 'next/headers'
-import { verifySessionToken } from '../lib/auth'
+'use client'
 
-export default async function HomePage() {
-  const cookieStore = cookies()
-  const token = cookieStore.get('admin_session')?.value
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import PublicPage from './public/page'
 
-  if (token) {
-    const user = await verifySessionToken(token).catch(() => null)
-    if (user) {
-      redirect('/admin')
-    }
+export default function HomePage() {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null)
+  const router = useRouter()
+
+  useEffect(() => {
+    // Check if logged in by calling API
+    fetch('/api/me')
+      .then(res => res.json())
+      .then(data => {
+        if (data.authenticated) {
+          router.push('/admin')
+        } else {
+          setIsLoggedIn(false)
+        }
+      })
+      .catch(() => setIsLoggedIn(false))
+  }, [router])
+
+  if (isLoggedIn === null) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>
   }
 
-  redirect('/login')
+  return <PublicPage />
 }

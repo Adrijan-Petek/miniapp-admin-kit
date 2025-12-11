@@ -481,13 +481,28 @@ The enhanced settings page now includes:
   - Custom JavaScript injection
 - **Contract Addresses**: Mockup addresses for development
 
-### Integration Guides
-- Backend API connection instructions
-- Smart contract integration hints
-- Database setup recommendations
-- Deployment configuration tips
+## 📋 Contracts Page
 
-All settings are automatically saved to localStorage and persist across sessions.
+`/admin/contracts`
+
+The dedicated contracts management page provides secure administration of blockchain contract addresses:
+
+### Contract Categories
+- **Core Contracts**: Treasury and Token contract addresses
+- **Game Contracts**: Match-3, Card Game, and Daily Claim contracts
+- **Status Monitoring**: Real-time contract status indicators
+- **Validation Tools**: Contract address validation and testing
+
+### Security Features
+- **Admin-Only Access**: Only authenticated administrators can view/modify contracts
+- **Input Validation**: Ethereum address format validation
+- **Audit Trail**: Contract changes are logged for security
+- **Backup Management**: Contract address backup and recovery options
+
+### Integration Ready
+- **API Endpoints**: Contract addresses exposed via secure admin APIs
+- **Environment Variables**: Support for different network configurations
+- **Multi-Network**: Support for mainnet, testnet, and custom networks
 
 ## 🚀 New Features Guide
 

@@ -181,8 +181,8 @@ export function useSettings() {
 
     // Header Settings
     showHeader: true,
-    headerBackgroundColor: '#ffffff',
-    headerTextColor: '#000000',
+    headerBackgroundColor: '#1e293b',
+    headerTextColor: '#f1f5f9',
     headerHeight: '4rem',
     headerShadow: true,
 
@@ -190,8 +190,8 @@ export function useSettings() {
     showHero: true,
     heroTitle: 'Welcome to MiniApp',
     heroSubtitle: 'Play games, earn rewards, and claim your tokens!',
-    heroBackgroundColor: '#ffffff',
-    heroTextColor: '#000000',
+    heroBackgroundColor: '#0f172a',
+    heroTextColor: '#f1f5f9',
     heroImageUrl: '',
     heroButtonText: 'Get Started',
     heroButtonUrl: '/login',
@@ -200,13 +200,13 @@ export function useSettings() {
     // Menu/Card Settings
     menuLayout: 'grid',
     menuColumns: 3,
-    menuCardBackground: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
-    menuCardHoverColor: 'linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%)',
+    menuCardBackground: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
+    menuCardHoverColor: 'linear-gradient(135deg, #334155 0%, #475569 100%)',
     menuCardBorderRadius: '0.75rem',
     menuCardShadow: true,
     menuIconSize: '3rem',
-    menuTitleColor: '#000000',
-    menuDescriptionColor: '#64748b',
+    menuTitleColor: '#f1f5f9',
+    menuDescriptionColor: '#cbd5e1',
 
     // Public Page Display
     showLogo: true,
@@ -260,8 +260,8 @@ export function useSettings() {
     ],
 
     // Footer Settings
-    footerBackgroundColor: '#f8fafc',
-    footerTextColor: '#64748b',
+    footerBackgroundColor: '#1e293b',
+    footerTextColor: '#cbd5e1',
     footerCopyright: '© 2025 MiniApp. All rights reserved.',
     footerLinks: [
       { title: 'Privacy Policy', url: '/privacy' },

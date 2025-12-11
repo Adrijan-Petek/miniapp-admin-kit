@@ -219,7 +219,7 @@ export const auditLogSchema = z.object({
   action: z.string().min(1, 'Action is required'),
   resource: z.string().min(1, 'Resource is required'),
   resource_id: z.string().optional(),
-  details: z.record(z.unknown()).optional(),
+  details: z.record(z.string(), z.unknown()).optional(),
   ip_address: z.string().optional(),
   user_agent: z.string().optional(),
   timestamp: z.string().datetime().default(() => new Date().toISOString()),

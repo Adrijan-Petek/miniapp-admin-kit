@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
-import { Database } from '@/types/database'
+import { Database } from './database.types'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -8,13 +8,13 @@ if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('Missing Supabase environment variables')
 }
 
-export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: true
   }
-})
+}) as any
 
 // Database types and utilities
 export type Tables = Database['public']['Tables']
@@ -23,20 +23,23 @@ export type Enums = Database['public']['Enums']
 // Helper functions for common database operations
 export const dbHelpers = {
   // Announcements
-  async getAnnouncements() {
+  async getAnnouncements(): Promise<Tables['announcements']['Row'][]> {
     const { data, error } = await supabase
       .from('announcements')
       .select('*')
       .order('created_at', { ascending: false })
 
     if (error) throw error
-    return data
+    return data || []
   },
 
-  async createAnnouncement(text: string) {
+  async createAnnouncement(text: string): Promise<Tables['announcements']['Row']> {
     const { data, error } = await supabase
       .from('announcements')
-      .insert([{ text, char_count: text.length }])
+      .insert({
+        text,
+        char_count: text.length
+      })
       .select()
       .single()
 
@@ -44,7 +47,7 @@ export const dbHelpers = {
     return data
   },
 
-  async updateAnnouncement(id: number, text: string) {
+  async updateAnnouncement(id: number, text: string): Promise<Tables['announcements']['Row']> {
     const { data, error } = await supabase
       .from('announcements')
       .update({ text, char_count: text.length, updated_at: new Date().toISOString() })
@@ -56,7 +59,7 @@ export const dbHelpers = {
     return data
   },
 
-  async deleteAnnouncement(id: number) {
+  async deleteAnnouncement(id: number): Promise<void> {
     const { error } = await supabase
       .from('announcements')
       .delete()
@@ -66,7 +69,7 @@ export const dbHelpers = {
   },
 
   // Leaderboard
-  async getLeaderboard(limit = 10) {
+  async getLeaderboard(limit = 10): Promise<Tables['leaderboard']['Row'][]> {
     const { data, error } = await supabase
       .from('leaderboard')
       .select('*')
@@ -74,10 +77,10 @@ export const dbHelpers = {
       .limit(limit)
 
     if (error) throw error
-    return data
+    return data || []
   },
 
-  async updatePlayerScore(address: string, score: number) {
+  async updatePlayerScore(address: string, score: number): Promise<Tables['leaderboard']['Row']> {
     const { data, error } = await supabase
       .from('leaderboard')
       .upsert(
@@ -92,7 +95,7 @@ export const dbHelpers = {
   },
 
   // Mini Apps
-  async getMiniApps() {
+  async getMiniApps(): Promise<Tables['mini_apps']['Row'][]> {
     const { data, error } = await supabase
       .from('mini_apps')
       .select('*')
@@ -102,10 +105,14 @@ export const dbHelpers = {
     return data
   },
 
-  async createMiniApp(name: string, description: string, url: string) {
+  async createMiniApp(name: string, description: string, url: string): Promise<Tables['mini_apps']['Row']> {
     const { data, error } = await supabase
       .from('mini_apps')
-      .insert([{ name, description, url }])
+      .insert({
+        name,
+        description,
+        url
+      })
       .select()
       .single()
 
@@ -113,7 +120,7 @@ export const dbHelpers = {
     return data
   },
 
-  async updateMiniApp(id: number, updates: Partial<{ name: string; description: string; url: string; is_active: boolean }>) {
+  async updateMiniApp(id: number, updates: Partial<{ name: string; description: string; url: string; is_active: boolean }>): Promise<Tables['mini_apps']['Row']> {
     const { data, error } = await supabase
       .from('mini_apps')
       .update({ ...updates, updated_at: new Date().toISOString() })
@@ -126,7 +133,7 @@ export const dbHelpers = {
   },
 
   // Treasury
-  async getTreasuryBalance() {
+  async getTreasuryBalance(): Promise<number> {
     const { data, error } = await supabase
       .from('treasury')
       .select('balance')
@@ -136,7 +143,7 @@ export const dbHelpers = {
     return data?.balance || 0
   },
 
-  async updateTreasuryBalance(balance: number) {
+  async updateTreasuryBalance(balance: number): Promise<Tables['treasury']['Row']> {
     const { data, error } = await supabase
       .from('treasury')
       .upsert(
@@ -151,17 +158,17 @@ export const dbHelpers = {
   },
 
   // Level Rewards
-  async getLevelRewards() {
+  async getLevelRewards(): Promise<Tables['level_rewards']['Row'][]> {
     const { data, error } = await supabase
       .from('level_rewards')
       .select('*')
       .order('level', { ascending: true })
 
     if (error) throw error
-    return data
+    return data || []
   },
 
-  async updateLevelReward(level: number, reward_amount: number) {
+  async updateLevelReward(level: number, reward_amount: number): Promise<Tables['level_rewards']['Row']> {
     const { data, error } = await supabase
       .from('level_rewards')
       .upsert(

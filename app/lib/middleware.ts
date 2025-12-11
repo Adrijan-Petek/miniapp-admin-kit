@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { verifySessionToken, canAccessResource } from '@/lib/auth'
+import { verifySessionToken, canAccessResource, type AuthUser } from '@/lib/auth'
 import { cookies } from 'next/headers'
 
 export interface AuthenticatedRequest extends NextRequest {

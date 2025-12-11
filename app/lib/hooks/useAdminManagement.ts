@@ -22,7 +22,7 @@ export function useAdminManagement() {
   const fetchUsers = async () => {
     try {
       setLoading(true)
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('users')
         .select('*')
         .order('created_at', { ascending: false })
@@ -40,7 +40,7 @@ export function useAdminManagement() {
   const createUser = async (userData: Omit<UserInput, 'id'>) => {
     try {
       const validatedData = userSchema.omit({ id: true }).parse(userData)
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('users')
         .insert([validatedData])
         .select()
@@ -59,7 +59,7 @@ export function useAdminManagement() {
   const updateUser = async (id: number, updates: Partial<UserInput>) => {
     try {
       const validatedUpdates = userSchema.partial().parse(updates)
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('users')
         .update(validatedUpdates)
         .eq('id', id)
@@ -78,7 +78,7 @@ export function useAdminManagement() {
   // Delete user
   const deleteUser = async (id: number) => {
     try {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('users')
         .delete()
         .eq('id', id)

@@ -20,7 +20,6 @@ export default function TreasuryPage() {
   const [playerAddress, setPlayerAddress] = useState('')
   const [rewardTokenAddress, setRewardTokenAddress] = useState('')
   const [rewardAmount, setRewardAmount] = useState('')
-  const [adminAddress, setAdminAddress] = useState('')
 
   return (
     <div className="space-y-6">
@@ -110,31 +109,8 @@ export default function TreasuryPage() {
       </section>
 
       <section className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
-        <h2 className="text-sm font-semibold mb-3">Admin Management</h2>
+        <h2 className="text-sm font-semibold mb-3">Admin Overview</h2>
         <div className="space-y-3">
-          <div>
-            <label className="block text-xs mb-1">Admin address (0x...)</label>
-            <input
-              value={adminAddress}
-              onChange={(e) => setAdminAddress(e.target.value)}
-              className="w-full rounded-lg border border-slate-700 bg-slate-950/70 px-3 py-2 text-xs mb-2"
-              placeholder="0x..."
-            />
-            <div className="flex gap-2">
-              <button
-                onClick={() => { addAdmin(adminAddress); setAdminAddress('') }}
-                className="px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-slate-950 text-xs font-semibold"
-              >
-                Add
-              </button>
-              <button
-                onClick={() => { removeAdmin(adminAddress); setAdminAddress('') }}
-                className="px-3 py-1.5 rounded-lg bg-red-500 hover:bg-red-600 text-slate-950 text-xs font-semibold"
-              >
-                Remove
-              </button>
-            </div>
-          </div>
           <p className="text-xs text-slate-500">💡 Admins can call creditReward() for any supported token</p>
           <div>
             <h3 className="text-xs font-semibold mb-1">Current Admins:</h3>

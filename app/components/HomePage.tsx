@@ -30,24 +30,6 @@ export default function HomePage() {
   const [loginError, setLoginError] = useState('')
   const router = useRouter()
 
-  // Safety check - if settings is not loaded yet, show loading
-  if (!settings || !settings.appName) {
-    return (
-      <div
-        className="min-h-screen flex items-center justify-center"
-        style={{
-          backgroundColor: '#0f172a', // Default dark background
-          color: '#f1f5f9' // Default text color
-        }}
-      >
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-400 mx-auto mb-4"></div>
-          <p>Loading...</p>
-        </div>
-      </div>
-    )
-  }
-
   const handleSplashComplete = () => {
     setShowSplash(false)
   }
@@ -76,18 +58,16 @@ export default function HomePage() {
         body: JSON.stringify(adminCredentials),
       })
 
-      if (response.ok) {
-        const data = await response.json()
-        // Store the token in cookie (this is handled by the API)
-        setShowAdminLogin(false)
-        setAdminCredentials({ username: '', password: '' })
-        setIsLoggedIn(true)
+      const data = await response.json()
+
+      if (response.ok && data.ok) {
+        // Login successful, redirect to admin
         router.push('/admin')
       } else {
-        setLoginError('Invalid credentials')
+        setLoginError(data.error || 'Login failed')
       }
     } catch (error) {
-      setLoginError('Login failed. Please try again.')
+      setLoginError('Network error. Please try again.')
     }
   }
 
@@ -100,6 +80,24 @@ export default function HomePage() {
       })
       .catch(() => setIsLoggedIn(false))
   }, [])
+
+  // Safety check - if settings is not loaded yet, show loading
+  if (!settings || !settings.appName) {
+    return (
+      <div
+        className="min-h-screen flex items-center justify-center"
+        style={{
+          backgroundColor: '#0f172a', // Default dark background
+          color: '#f1f5f9' // Default text color
+        }}
+      >
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-400 mx-auto mb-4"></div>
+          <p>Loading...</p>
+        </div>
+      </div>
+    )
+  }
 
   const scrollingText = announcements?.map(a => `📢 ${a.text}`).join(' • ') || ''
 

@@ -4,6 +4,16 @@ import { supabase } from '@/lib/supabase'
 import { loginSchema, validateData } from '@/lib/validation'
 import bcrypt from 'bcrypt'
 
+interface DatabaseUser {
+  id: number
+  username: string
+  email: string
+  password_hash: string
+  role: string
+  is_active: boolean
+  last_login?: string
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json().catch(() => null)
@@ -38,25 +48,27 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
     }
 
+    const dbUser = user as DatabaseUser
+
     // Verify password (assuming passwords are hashed with bcrypt)
-    const isValidPassword = await bcrypt.compare(password, user.password_hash)
+    const isValidPassword = await bcrypt.compare(password, dbUser.password_hash)
     if (!isValidPassword) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
     }
 
     // Update last login
-    await supabase
-      .from('users')
+    await (supabase
+      .from('users') as any)
       .update({ last_login: new Date().toISOString() })
-      .eq('id', user.id)
+      .eq('id', dbUser.id)
 
     // Create session token
-    const permissions = getRolePermissions(user.role)
+    const permissions = getRolePermissions(dbUser.role as any)
     const authUser = {
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      role: user.role,
+      id: dbUser.id,
+      username: dbUser.username,
+      email: dbUser.email,
+      role: dbUser.role as any,
       permissions,
     }
 
@@ -64,12 +76,12 @@ export async function POST(req: NextRequest) {
 
     // Create response with user info (excluding sensitive data)
     const userResponse = {
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      role: user.role,
+      id: dbUser.id,
+      username: dbUser.username,
+      email: dbUser.email,
+      role: dbUser.role,
       permissions,
-      last_login: user.last_login,
+      last_login: dbUser.last_login,
     }
 
     const res = NextResponse.json({

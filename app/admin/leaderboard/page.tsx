@@ -53,13 +53,13 @@ export default function LeaderboardPage() {
                 placeholder="Player address (0x...)"
               />
               <input
-                value={player.amount}
-                onChange={(e) => {/* update amount */}}
+                value={player.score}
+                onChange={(e) => {/* update score */}}
                 className="w-24 rounded border border-slate-600 bg-slate-900 px-2 py-1 text-xs"
-                placeholder="TOKEN amount"
+                placeholder="Score"
               />
               <button
-                onClick={() => removePlayer(player.rank)}
+                onClick={() => removePlayer(player.address)}
                 className="text-red-400 hover:text-red-300 text-xs"
               >
                 ✕
@@ -82,7 +82,7 @@ export default function LeaderboardPage() {
             placeholder="TOKEN amount"
           />
           <button
-            onClick={() => { addPlayer(newPlayerAddress, newPlayerAmount); setNewPlayerAddress(''); setNewPlayerAmount('') }}
+            onClick={() => { addPlayer(newPlayerAddress, parseInt(newPlayerAmount) || 0); setNewPlayerAddress(''); setNewPlayerAmount('') }}
             className="text-emerald-400 hover:text-emerald-300 text-xs"
           >
             + Add Player
@@ -129,13 +129,13 @@ export default function LeaderboardPage() {
                 placeholder="Player address (0x...)"
               />
               <input
-                value={player.amount}
-                onChange={(e) => {/* update amount */}}
+                value={player.score}
+                onChange={(e) => {/* update score */}}
                 className="w-24 rounded border border-slate-600 bg-slate-900 px-2 py-1 text-xs"
-                placeholder="Amount"
+                placeholder="Score"
               />
               <button
-                onClick={() => removePlayer(player.rank)}
+                onClick={() => removePlayer(player.address)}
                 className="text-red-400 hover:text-red-300 text-xs"
               >
                 ✕
@@ -158,7 +158,7 @@ export default function LeaderboardPage() {
             placeholder="Amount"
           />
           <button
-            onClick={() => { addPlayer(newPlayerAddress, newPlayerAmount); setNewPlayerAddress(''); setNewPlayerAmount('') }}
+            onClick={() => { addPlayer(newPlayerAddress, parseInt(newPlayerAmount) || 0); setNewPlayerAddress(''); setNewPlayerAmount('') }}
             className="text-emerald-400 hover:text-emerald-300 text-xs"
           >
             + Add Player

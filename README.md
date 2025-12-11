@@ -13,6 +13,7 @@ A professional, full-stack admin panel template for managing mini-apps, built wi
 - **Mini Apps Manager**: Manage your mini-app ecosystem with status toggles
 - **Treasury Management**: ETH/ERC20 balances, withdrawals, admin controls, multi-token support
 - **Leaderboard**: Sync with Farcaster profiles, credit rewards to top players
+- **Menu Management**: Create admin-only menu items, custom navigation with icons
 - **Settings**: Full theme customization (colors, fonts, logos), game parameters, access control, **splash screen configuration**, and **10 animation options**
 
 ### 🎨 Splash Screen System
@@ -170,20 +171,26 @@ customJS: string              // Custom JavaScript injection
 - **Progress Bar**: Respects your speed settings
 - **Global Toggle**: Disable all animations if needed for accessibility
 
-### Advanced Customization
+### Menu Management
+- **Dynamic Menu Items**: Add/edit/delete custom menu items with titles, descriptions, and URLs
+- **Admin-Only Visibility**: Create menu items that only appear for logged-in administrators
+- **Icon Customization**: Use emoji icons for visual menu representation
+- **Flexible Routing**: Support for internal paths and external URLs
+- **Enable/Disable Toggle**: Control menu item visibility without deletion
+- **Responsive Navigation**: Optimized display on desktop and mobile devices
 
-Use the Custom CSS and JavaScript fields for extended customization:
-
-```css
-/* Custom CSS Example */
-.splash-logo {
-  filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.5));
+### Advanced Menu Features
+```typescript
+// Menu items can be configured as admin-only
+const adminMenuItem = {
+  id: 'admin-panel',
+  title: '⚙️ Admin Panel',
+  description: 'Administrative controls',
+  icon: '⚙️',
+  url: '/admin',
+  enabled: true,
+  adminOnly: true  // Only visible to logged-in admins
 }
-```
-
-```javascript
-// Custom JavaScript Example
-console.log('Splash screen loaded with custom settings');
 ```
 
 ### Branding Integration

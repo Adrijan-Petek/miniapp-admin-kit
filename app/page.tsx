@@ -1,7 +1,12 @@
 'use client'
 
 import HomePage from './components/HomePage'
+import { ThemeProvider } from '@/lib/hooks/useTheme'
 
 export default function Page() {
-  return <HomePage />
+  return (
+    <ThemeProvider>
+      <HomePage />
+    </ThemeProvider>
+  )
 }

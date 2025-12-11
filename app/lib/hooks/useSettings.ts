@@ -122,6 +122,20 @@ export interface Settings {
   customJS: string
   enableAnimations: boolean
   animationSpeed: 'slow' | 'normal' | 'fast'
+  splashAnimation: 'bounce' | 'fade' | 'slide' | 'zoom' | 'rotate' | 'pulse' | 'shake' | 'flip' | 'glow' | 'wave'
+  splashLogoUrl: string
+  splashLogoSize: 'small' | 'medium' | 'large'
+
+  // Database Configuration
+  databaseProvider: 'vercel-postgres' | 'supabase' | 'planetscale' | 'mongodb-atlas' | 'railway' | 'neon' | 'cockroachdb' | 'custom'
+  databaseUrl: string
+  databaseName: string
+  databaseHost: string
+  databasePort: string
+  databaseUsername: string
+  databasePassword: string
+  enableDatabaseConnection: boolean
+  databaseConnectionStatus: 'disconnected' | 'connecting' | 'connected' | 'error'
 }
 
 export function useSettings() {
@@ -273,14 +287,30 @@ export function useSettings() {
     customCSS: '',
     customJS: '',
     enableAnimations: true,
-    animationSpeed: 'normal'
+    animationSpeed: 'normal',
+    splashAnimation: 'bounce',
+    splashLogoUrl: '',
+    splashLogoSize: 'medium',
+
+    // Database Configuration
+    databaseProvider: 'vercel-postgres',
+    databaseUrl: '',
+    databaseName: '',
+    databaseHost: '',
+    databasePort: '',
+    databaseUsername: '',
+    databasePassword: '',
+    enableDatabaseConnection: false,
+    databaseConnectionStatus: 'disconnected'
   })
 
   useEffect(() => {
     const saved = localStorage.getItem('miniapp-settings')
     if (saved) {
       try {
-        setSettings(JSON.parse(saved))
+        const parsed = JSON.parse(saved)
+        // Merge with defaults to ensure all properties exist
+        setSettings(prev => ({ ...prev, ...parsed }))
       } catch (e) {
         console.error('Failed to parse settings', e)
       }

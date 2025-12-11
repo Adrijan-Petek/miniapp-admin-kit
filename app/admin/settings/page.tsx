@@ -1,10 +1,12 @@
 'use client'
 
 import { useSettings } from '@/lib/hooks/useSettings'
+import { useDatabase } from '@/lib/database'
 import { useGameSettings } from '@/lib/hooks/useGameSettings'
 
 export default function SettingsPage() {
   const { settings, updateSetting } = useSettings()
+  const { connect, disconnect, testConnection, getConnectionStatus, getProviderInfo } = useDatabase()
   const {
     settings: gameSettings,
     updateMatch3PlayFee,
@@ -967,13 +969,271 @@ export default function SettingsPage() {
       </section>
 
       <section className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
-        <h2 className="text-sm font-semibold mb-3">📋 Contract Addresses</h2>
+        <h2 className="text-sm font-semibold mb-3">📋 Contract Addresses (Mockup)</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-          <div>Treasury: 0x91F67245cE0ad7AFB5301EE5d8eaE29Db69078Af</div>
-          <div>Match3Game: 0x72cC365b09D7cB4bE3416279407655cA9BBdc532</div>
-          <div>CardGame: 0xa59Fd0ffE17D446157430E13db2d133DD2DfF3da</div>
-          <div>DailyClaim: 0x6A27938E353Be8f25ECD7dEd90A47221e93F2941</div>
-          <div>Token: 0xc732932ca7db558cf1bacc17b4f4f7e149e0eb07</div>
+          <div>Treasury: 0x1234567890123456789012345678901234567890</div>
+          <div>Match3Game: 0x2345678901234567890123456789012345678901</div>
+          <div>CardGame: 0x3456789012345678901234567890123456789012</div>
+          <div>DailyClaim: 0x4567890123456789012345678901234567890123</div>
+          <div>Token: 0x5678901234567890123456789012345678901234</div>
+        </div>
+      </section>
+
+      <section className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
+        <h2 className="text-sm font-semibold mb-3">🎭 Advanced Settings</h2>
+        <div className="space-y-4">
+          {/* Splash Screen Settings */}
+          <div>
+            <h3 className="text-xs font-medium mb-2 text-slate-300">Splash Screen</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs mb-1">Logo URL</label>
+                <input
+                  type="url"
+                  value={settings.splashLogoUrl}
+                  onChange={(e) => updateSetting('splashLogoUrl', e.target.value)}
+                  placeholder="https://example.com/logo.png"
+                  className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs"
+                />
+              </div>
+              <div>
+                <label className="block text-xs mb-1">Logo Size</label>
+                <select
+                  value={settings.splashLogoSize}
+                  onChange={(e) => updateSetting('splashLogoSize', e.target.value as 'small' | 'medium' | 'large')}
+                  className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs"
+                >
+                  <option value="small">Small (64px)</option>
+                  <option value="medium">Medium (96px)</option>
+                  <option value="large">Large (128px)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* Animation Settings */}
+          <div>
+            <h3 className="text-xs font-medium mb-2 text-slate-300">Animations</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs mb-1">Enable Animations</label>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    checked={settings.enableAnimations}
+                    onChange={(e) => updateSetting('enableAnimations', e.target.checked)}
+                    className="rounded border-slate-600 bg-slate-900"
+                  />
+                  <span className="text-xs text-slate-400">Enable hover and transition effects</span>
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs mb-1">Animation Speed</label>
+                <select
+                  value={settings.animationSpeed}
+                  onChange={(e) => updateSetting('animationSpeed', e.target.value as 'slow' | 'normal' | 'fast')}
+                  className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs"
+                >
+                  <option value="slow">Slow</option>
+                  <option value="normal">Normal</option>
+                  <option value="fast">Fast</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* Splash Animation Selection */}
+          <div>
+            <label className="block text-xs mb-2">Splash Screen Animation</label>
+            <select
+              value={settings.splashAnimation}
+              onChange={(e) => updateSetting('splashAnimation', e.target.value as any)}
+              className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs"
+            >
+              <option value="bounce">🎈 Bounce - Playful bouncing effect</option>
+              <option value="fade">🌟 Fade - Smooth fade in/out</option>
+              <option value="slide">📱 Slide - Slide from sides</option>
+              <option value="zoom">🔍 Zoom - Scale in/out effect</option>
+              <option value="rotate">🔄 Rotate - Spinning entrance</option>
+              <option value="pulse">💓 Pulse - Heartbeat-like pulsing</option>
+              <option value="shake">🌊 Shake - Gentle shaking motion</option>
+              <option value="flip">🎭 Flip - 3D flip animation</option>
+              <option value="glow">✨ Glow - Glowing border effect</option>
+              <option value="wave">🌊 Wave - Waving motion</option>
+            </select>
+            <p className="text-xs text-slate-500 mt-1">Choose the animation style for your splash screen</p>
+          </div>
+
+          {/* Custom CSS */}
+          <div>
+            <label className="block text-xs mb-1">Custom CSS</label>
+            <textarea
+              value={settings.customCSS}
+              onChange={(e) => updateSetting('customCSS', e.target.value)}
+              placeholder="Enter custom CSS rules..."
+              rows={4}
+              className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs font-mono"
+            />
+          </div>
+
+          {/* Custom JS */}
+          <div>
+            <label className="block text-xs mb-1">Custom JavaScript</label>
+            <textarea
+              value={settings.customJS}
+              onChange={(e) => updateSetting('customJS', e.target.value)}
+              placeholder="Enter custom JavaScript code..."
+              rows={4}
+              className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs font-mono"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
+        <h2 className="text-sm font-semibold mb-3">🗄️ Database Configuration</h2>
+        <div className="space-y-4">
+          {/* Database Provider Selection */}
+          <div>
+            <label className="block text-xs mb-2">Database Provider</label>
+            <select
+              value={settings.databaseProvider}
+              onChange={(e) => updateSetting('databaseProvider', e.target.value as any)}
+              className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs"
+            >
+              <option value="vercel-postgres">🟢 Vercel Postgres (Free tier available)</option>
+              <option value="supabase">🔥 Supabase (Free tier with 500MB)</option>
+              <option value="planetscale">🌍 PlanetScale (Free tier with 1 database)</option>
+              <option value="mongodb-atlas">🍃 MongoDB Atlas (Free tier with 512MB)</option>
+              <option value="railway">🚂 Railway (Free tier with PostgreSQL)</option>
+              <option value="neon">⚡ Neon (Free tier with 512MB)</option>
+              <option value="cockroachdb">🪳 CockroachDB (Free tier available)</option>
+              <option value="custom">🔧 Custom Connection</option>
+            </select>
+            <p className="text-xs text-slate-500 mt-1">Choose your database provider. Free tiers are highlighted.</p>
+          </div>
+
+          {/* Connection Toggle */}
+          <div>
+            <label className="flex items-center space-x-2 text-xs">
+              <input
+                type="checkbox"
+                checked={settings.enableDatabaseConnection}
+                onChange={(e) => updateSetting('enableDatabaseConnection', e.target.checked)}
+                className="rounded border-slate-600 bg-slate-900"
+              />
+              <span>Enable Database Connection</span>
+            </label>
+            <p className="text-xs text-slate-500 mt-1">Toggle database connectivity on/off</p>
+          </div>
+
+          {/* Connection Status */}
+          <div className="flex items-center space-x-2">
+            <div className={`w-3 h-3 rounded-full ${
+              getConnectionStatus() === 'connected' ? 'bg-green-500' :
+              getConnectionStatus() === 'connecting' ? 'bg-yellow-500 animate-pulse' :
+              getConnectionStatus() === 'error' ? 'bg-red-500' : 'bg-gray-500'
+            }`}></div>
+            <span className="text-xs capitalize">{getConnectionStatus()}</span>
+          </div>
+
+          {/* Database URL (for most providers) */}
+          <div>
+            <label className="block text-xs mb-1">Database URL</label>
+            <input
+              type="url"
+              value={settings.databaseUrl}
+              onChange={(e) => updateSetting('databaseUrl', e.target.value)}
+              placeholder="postgresql://username:password@host:port/database"
+              className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs font-mono"
+            />
+            <p className="text-xs text-slate-500 mt-1">Connection string for your database</p>
+          </div>
+
+          {/* Individual Fields (for custom connections) */}
+          {settings.databaseProvider === 'custom' && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs mb-1">Host</label>
+                <input
+                  type="text"
+                  value={settings.databaseHost}
+                  onChange={(e) => updateSetting('databaseHost', e.target.value)}
+                  placeholder="localhost"
+                  className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs"
+                />
+              </div>
+              <div>
+                <label className="block text-xs mb-1">Port</label>
+                <input
+                  type="text"
+                  value={settings.databasePort}
+                  onChange={(e) => updateSetting('databasePort', e.target.value)}
+                  placeholder="5432"
+                  className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs"
+                />
+              </div>
+              <div>
+                <label className="block text-xs mb-1">Database Name</label>
+                <input
+                  type="text"
+                  value={settings.databaseName}
+                  onChange={(e) => updateSetting('databaseName', e.target.value)}
+                  placeholder="myapp"
+                  className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs"
+                />
+              </div>
+              <div>
+                <label className="block text-xs mb-1">Username</label>
+                <input
+                  type="text"
+                  value={settings.databaseUsername}
+                  onChange={(e) => updateSetting('databaseUsername', e.target.value)}
+                  placeholder="postgres"
+                  className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs"
+                />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-xs mb-1">Password</label>
+                <input
+                  type="password"
+                  value={settings.databasePassword}
+                  onChange={(e) => updateSetting('databasePassword', e.target.value)}
+                  placeholder="••••••••"
+                  className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs"
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Provider-specific information */}
+          <div className="bg-slate-800/50 rounded-lg p-3">
+            <h4 className="text-xs font-medium mb-2">📋 Provider Information</h4>
+            <div className="text-xs text-slate-400 space-y-1">
+              <p className="font-medium text-slate-300">{getProviderInfo().name}</p>
+              <p>• Free tier: {getProviderInfo().freeTier}</p>
+              {getProviderInfo().features.map((feature, index) => (
+                <p key={index}>• {feature}</p>
+              ))}
+            </div>
+          </div>
+
+          {/* Test Connection Button */}
+          <div className="flex gap-2">
+            <button
+              onClick={testConnection}
+              disabled={!settings.enableDatabaseConnection}
+              className="px-3 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-600 text-xs font-medium rounded"
+            >
+              Test Connection
+            </button>
+            <button
+              onClick={disconnect}
+              className="px-3 py-2 bg-red-600 hover:bg-red-700 text-xs font-medium rounded"
+            >
+              Disconnect
+            </button>
+          </div>
         </div>
       </section>
     </div>

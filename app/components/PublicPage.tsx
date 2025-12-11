@@ -2,71 +2,33 @@
 
 import { useAnnouncements } from '@/lib/hooks/useAnnouncements'
 import { useSettings } from '@/lib/hooks/useSettings'
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import SplashScreen from './SplashScreen'
 
-export default function HomePage() {
+interface PublicPageProps {
+  isLoggedIn?: boolean | null
+}
+
+export default function PublicPage({ isLoggedIn }: PublicPageProps) {
   const { announcements } = useAnnouncements()
   const { settings } = useSettings()
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null)
-  const [showSplash, setShowSplash] = useState(true)
-  const router = useRouter()
-
-  // Safety check - if settings is not loaded yet, show loading
-  if (!settings || !settings.appName) {
-    return (
-      <div
-        className="min-h-screen flex items-center justify-center"
-        style={{
-          backgroundColor: '#0f172a', // Default dark background
-          color: '#f1f5f9' // Default text color
-        }}
-      >
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-400 mx-auto mb-4"></div>
-          <p>Loading...</p>
-        </div>
-      </div>
-    )
-  }
-
-  const handleSplashComplete = () => {
-    setShowSplash(false)
-  }
-
-  useEffect(() => {
-    // Check if logged in by calling API
-    fetch('/api/me')
-      .then(res => res.json())
-      .then(data => {
-        setIsLoggedIn(data.authenticated)
-      })
-      .catch(() => setIsLoggedIn(false))
-  }, [])
 
   const scrollingText = announcements?.map(a => `📢 ${a.text}`).join(' • ') || ''
 
-  if (showSplash) {
-    return <SplashScreen onComplete={handleSplashComplete} />
-  }
-
   return (
     <div
-      className="min-h-screen bg-slate-950 text-slate-100"
+      className="min-h-screen bg-white text-black"
       style={{
         fontFamily: settings.fontFamily,
-        backgroundColor: settings.heroBackgroundColor || '#0f172a',
-        color: settings.heroTextColor || '#f1f5f9'
+        backgroundColor: settings.heroBackgroundColor,
+        color: settings.heroTextColor
       }}
     >
       {/* Header */}
       {settings.showHeader && (
         <header
-          className={`shadow-sm border-b border-slate-800 ${settings.headerShadow ? 'shadow-md' : ''}`}
+          className={`shadow-sm border-b border-gray-200 ${settings.headerShadow ? 'shadow-md' : ''}`}
           style={{
-            backgroundColor: settings.headerBackgroundColor || '#1e293b',
-            color: settings.headerTextColor || '#f1f5f9',
+            backgroundColor: settings.headerBackgroundColor,
+            color: settings.headerTextColor,
             height: settings.headerHeight
           }}
         >
@@ -76,7 +38,7 @@ export default function HomePage() {
               {settings.showLogo && settings.logoUrl && (
                 <img src={settings.logoUrl} alt="Logo" className="h-10 w-auto" />
               )}
-              <span className="ml-3 text-xl font-bold text-slate-100" style={{ color: settings.headerTextColor || '#f1f5f9' }}>
+              <span className="ml-3 text-xl font-bold" style={{ color: settings.headerTextColor }}>
                 {settings.appName}
               </span>
             </div>
@@ -87,8 +49,8 @@ export default function HomePage() {
                 <a
                   key={item.id}
                   href={item.url}
-                  className="px-3 py-2 text-sm font-medium transition-colors duration-200 flex items-center space-x-2 text-slate-300 hover:text-blue-400"
-                  style={{ color: settings.headerTextColor || '#cbd5e1' }}
+                  className="px-3 py-2 text-sm font-medium transition-colors duration-200 flex items-center space-x-2 hover:opacity-80"
+                  style={{ color: settings.headerTextColor }}
                 >
                   <span>{item.icon}</span>
                   <span>{item.title}</span>
@@ -127,14 +89,14 @@ export default function HomePage() {
           </div>
 
           {/* Mobile Navigation */}
-          <div className="md:hidden border-t border-slate-800">
+          <div className="md:hidden border-t border-gray-200">
             <nav className="px-4 py-3 space-y-1">
               {settings.menuItems?.filter(item => item.enabled).map(item => (
                 <a
                   key={item.id}
                   href={item.url}
-                  className="block px-3 py-2 text-base font-medium transition-colors duration-200 flex items-center space-x-2 text-slate-300 hover:text-blue-400"
-                  style={{ color: settings.headerTextColor || '#cbd5e1' }}
+                  className="block px-3 py-2 text-base font-medium transition-colors duration-200 flex items-center space-x-2 hover:opacity-80"
+                  style={{ color: settings.headerTextColor }}
                 >
                   <span>{item.icon}</span>
                   <span>{item.title}</span>
@@ -149,10 +111,10 @@ export default function HomePage() {
       {settings.showHero && (
         <section className="py-12 px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4 text-slate-100" style={{ color: settings.heroTextColor || '#f1f5f9' }}>
+            <h1 className="text-4xl md:text-6xl font-bold mb-4" style={{ color: settings.heroTextColor }}>
               {settings.heroTitle}
             </h1>
-            <p className="text-lg md:text-xl mb-8 text-slate-300" style={{ color: settings.heroTextColor || '#cbd5e1' }}>
+            <p className="text-lg md:text-xl mb-8 opacity-90" style={{ color: settings.heroTextColor }}>
               {settings.heroSubtitle}
             </p>
             {settings.heroButtonText && (
@@ -174,11 +136,11 @@ export default function HomePage() {
       {/* Main Content */}
       <main className="flex flex-col items-center justify-center p-4 pt-12">
         <div className="text-center max-w-4xl">
-          <h1 className="text-4xl font-bold mb-4 text-slate-100">{settings.appName}</h1>
-          <p className="text-lg text-slate-300 mb-8">{settings.appDescription}</p>
+          <h1 className="text-4xl font-bold mb-4 text-black">{settings.appName}</h1>
+          <p className="text-lg text-gray-600 mb-8">{settings.appDescription}</p>
           {settings.showAnnouncements && scrollingText && (
-            <div className="bg-slate-800 p-4 rounded-lg max-w-2xl mx-auto mb-8 border border-slate-700">
-              <div className="text-sm text-yellow-400 whitespace-nowrap overflow-hidden">
+            <div className="bg-gray-200 p-4 rounded-lg max-w-2xl mx-auto mb-8">
+              <div className="text-sm text-yellow-600 whitespace-nowrap overflow-hidden">
                 <div className="animate-marquee">
                   {scrollingText}
                 </div>
@@ -199,13 +161,13 @@ export default function HomePage() {
                 <a
                   key={item.id}
                   href={item.url}
-                  className={`p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-slate-700 ${
+                  className={`p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-blue-200 ${
                     settings.enableAnimations ? 'transform hover:scale-105' : ''
                   }`}
                   style={{
-                    background: settings.menuCardBackground || 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
+                    background: settings.menuCardBackground,
                     borderRadius: settings.menuCardBorderRadius,
-                    boxShadow: settings.menuCardShadow ? '0 4px 6px -1px rgba(0, 0, 0, 0.3)' : 'none',
+                    boxShadow: settings.menuCardShadow ? '0 4px 6px -1px rgba(0, 0, 0, 0.1)' : 'none',
                     minWidth: settings.menuLayout === 'carousel' ? '250px' : 'auto'
                   }}
                   onMouseEnter={(e) => {
@@ -214,12 +176,12 @@ export default function HomePage() {
                     }
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = settings.menuCardBackground || 'linear-gradient(135deg, #1e293b 0%, #334155 100%)';
+                    e.currentTarget.style.background = settings.menuCardBackground;
                   }}
                 >
                   <div className="mb-2" style={{ fontSize: settings.menuIconSize }}>{item.icon}</div>
-                  <h3 className="text-xl font-semibold mb-1 text-slate-100" style={{ color: settings.menuTitleColor || '#f1f5f9' }}>{item.title}</h3>
-                  <p className="text-sm text-slate-300" style={{ color: settings.menuDescriptionColor || '#cbd5e1' }}>{item.description}</p>
+                  <h3 className="text-xl font-semibold mb-1" style={{ color: settings.menuTitleColor }}>{item.title}</h3>
+                  <p className="text-sm" style={{ color: settings.menuDescriptionColor }}>{item.description}</p>
                 </a>
               ))}
             </div>
@@ -230,10 +192,10 @@ export default function HomePage() {
       {/* Footer */}
       {settings.showFooter && (
         <footer
-          className="mt-auto py-8 px-4 border-t border-slate-800"
+          className="mt-auto py-8 px-4 border-t border-gray-200"
           style={{
-            backgroundColor: settings.footerBackgroundColor || '#1e293b',
-            color: settings.footerTextColor || '#cbd5e1'
+            backgroundColor: settings.footerBackgroundColor,
+            color: settings.footerTextColor
           }}
         >
           <div className="max-w-7xl mx-auto">
@@ -284,7 +246,7 @@ export default function HomePage() {
               )}
             </div>
 
-            <div className="mt-8 pt-8 border-t border-slate-700 text-center text-sm opacity-80">
+            <div className="mt-8 pt-8 border-t border-gray-300 text-center text-sm opacity-80">
               {settings.footerCopyright}
             </div>
           </div>

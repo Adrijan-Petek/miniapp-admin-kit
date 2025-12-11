@@ -1,6 +1,6 @@
 # MiniApp Admin Kit
 
-A professional, full-stack admin panel template for managing mini-apps, built with Next.js, TypeScript, and Tailwind CSS. Ready for Farcaster integration, wallet connect, and rapid mini-app development.
+A professional, full-stack admin panel template for managing mini-apps, built with Next.js, TypeScript, and Tailwind CSS. Features a stunning splash screen, comprehensive animation system, and complete customization options. Ready for Farcaster integration, wallet connect, and rapid mini-app development.
 
 **Created by Adrijan Petek**
 
@@ -13,7 +13,14 @@ A professional, full-stack admin panel template for managing mini-apps, built wi
 - **Mini Apps Manager**: Manage your mini-app ecosystem with status toggles
 - **Treasury Management**: ETH/ERC20 balances, withdrawals, admin controls, multi-token support
 - **Leaderboard**: Sync with Farcaster profiles, credit rewards to top players
-- **Settings**: Full theme customization (colors, fonts, logos), game parameters, access control
+- **Settings**: Full theme customization (colors, fonts, logos), game parameters, access control, **splash screen configuration**, and **10 animation options**
+
+### 🎨 Splash Screen System
+- **Custom Logo Support**: Upload custom logo URLs with size options (Small/Medium/Large)
+- **10 Professional Animations**: Choose from Bounce, Fade, Slide, Zoom, Rotate, Pulse, Shake, Flip, Glow, and Wave animations
+- **Dynamic Branding**: App name, tagline, and version pulled from settings
+- **Animation Speed Control**: Slow, Normal, and Fast animation speeds
+- **Fallback System**: Graceful fallback to default emoji if custom logo fails to load
 
 ### 🎮 Game Management
 - **Match-3 Game**: Play fees, booster prices (single/packs)
@@ -24,13 +31,14 @@ A professional, full-stack admin panel template for managing mini-apps, built wi
 - **Farcaster**: Profile sync, token metadata, auth kit
 - **Wallet Connect**: Web3Modal integration
 - **Ethereum**: Wagmi hooks for blockchain interactions
-- **Smart Contracts**: Pre-configured contract addresses
+- **Smart Contracts**: Pre-configured mockup contract addresses for development
 
 ### 🎨 Professional UI
 - Dark theme with customizable colors and fonts
 - Responsive design with dropdowns and smooth transitions
 - Emoji icons and professional layout
 - Frontend edit mode for direct page customization
+- Advanced settings panel with custom CSS/JS injection
 
 ## 🚀 Quick Start
 
@@ -76,10 +84,22 @@ A professional, full-stack admin panel template for managing mini-apps, built wi
 - Admin access mode (owner/admins)
 - Frontend edit mode toggle
 
+### Splash Screen Configuration
+- **Logo Settings**: Custom logo URL and size selection (Small/Medium/Large)
+- **Animation Selection**: Choose from 10 professional animations (Bounce, Fade, Slide, Zoom, Rotate, Pulse, Shake, Flip, Glow, Wave)
+- **Animation Speed**: Control animation timing (Slow/Normal/Fast)
+- **Branding**: Dynamic app name, tagline, and version display
+
 ### Game Settings
 - Match-3: Play fees, booster prices
 - Card Game: Play fees, win rewards
 - Daily Claim: Base rewards, streak bonuses
+
+### Advanced Settings
+- Custom CSS injection for theme customization
+- Custom JavaScript for extended functionality
+- Animation enable/disable toggle
+- Mockup contract addresses for development
 
 ## Hooks
 
@@ -91,8 +111,87 @@ The project includes reusable hooks for all data management:
 - `useLeaderboard()`: Leaderboard and rewards
 - `useTokenManagement()`: Multi-token support
 - `useAdminManagement()`: Admin controls
-- `useSettings()`: Theme and app settings
+- `useSettings()`: **Enhanced theme and app settings including splash screen configuration**
 - `useGameSettings()`: Game parameters
+- `useMiniApps()`: Mini-app ecosystem management
+
+### New Settings Properties
+
+The `useSettings()` hook now includes comprehensive customization options:
+
+```typescript
+// Splash Screen
+splashLogoUrl: string          // Custom logo URL
+splashLogoSize: 'small' | 'medium' | 'large'  // Logo display size
+splashAnimation: string        // Selected animation type
+
+// Animations
+enableAnimations: boolean      // Global animation toggle
+animationSpeed: 'slow' | 'normal' | 'fast'  // Animation timing
+
+// Advanced
+customCSS: string             // Custom CSS injection
+customJS: string              // Custom JavaScript injection
+```
+
+## 🎭 Splash Screen & Animation Guide
+
+### Setting Up Your Splash Screen
+
+1. **Access Admin Settings**: Navigate to `/admin/settings` and scroll to the "Advanced Settings" section
+
+2. **Configure Logo**:
+   - Enter your logo URL in the "Logo URL" field
+   - Choose logo size: Small (64px), Medium (96px), or Large (128px)
+   - The system automatically falls back to a default emoji if the logo fails to load
+
+3. **Choose Animation**:
+   - Select from 10 professional animations:
+     - 🎈 **Bounce**: Playful bouncing effect
+     - 🌟 **Fade**: Smooth fade transitions
+     - 📱 **Slide**: Elements slide from sides
+     - 🔍 **Zoom**: Scale in/out effect
+     - 🔄 **Rotate**: Spinning entrance
+     - 💓 **Pulse**: Heartbeat pulsing
+     - 🌊 **Shake**: Gentle shaking motion
+     - 🎭 **Flip**: 3D flip animation
+     - ✨ **Glow**: Glowing border effect
+     - 🌊 **Wave**: Waving motion
+
+4. **Animation Speed**: Choose Slow, Normal, or Fast timing
+
+5. **Preview**: Changes apply immediately - refresh your main page to see the splash screen
+
+### Animation System Details
+
+- **Logo Animation**: Your custom logo uses the selected animation style
+- **Loading Indicators**: Loading dots adapt to your animation choice
+- **Progress Bar**: Respects your speed settings
+- **Global Toggle**: Disable all animations if needed for accessibility
+
+### Advanced Customization
+
+Use the Custom CSS and JavaScript fields for extended customization:
+
+```css
+/* Custom CSS Example */
+.splash-logo {
+  filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.5));
+}
+```
+
+```javascript
+// Custom JavaScript Example
+console.log('Splash screen loaded with custom settings');
+```
+
+### Branding Integration
+
+The splash screen automatically pulls branding from your settings:
+- **App Name**: From general app settings
+- **Tagline**: From app description/tagline field
+- **Version**: From app version setting
+- **Colors**: Uses your theme colors for consistency
 
 ## API Integration
 
@@ -105,25 +204,93 @@ Wire the hooks to your backend APIs:
 
 ## Deployment
 
-Deploy as a private admin panel:
+Deploy as a private admin panel with enhanced branding:
 
-- Vercel (recommended)
-- Private URL access
-- Restrict by IP/VPN/SSO
+- **Vercel** (recommended) - Automatic deployments with preview URLs
+- **Netlify** - CDN distribution with form handling
+- **Railway** - Docker-based deployment with database support
+- **Private URL access** - Restrict by IP/VPN/SSO
+- **Custom domain** - White-label your admin panel
 
-## License
+### Environment Setup
 
-Created by Adrijan Petek - Professional mini-app admin template
+For production deployment, configure these environment variables:
+
+```bash
+# Authentication
+ADMIN_USERNAME="your-admin-username"
+ADMIN_PASSWORD="your-secure-password"
+ADMIN_JWT_SECRET="your-long-random-jwt-secret"
+
+# Optional: Database connections (future feature)
+DATABASE_URL="your-database-connection-string"
+
+# Optional: External services
+NEXT_PUBLIC_APP_URL="https://your-domain.com"
+```
+
+### Splash Screen in Production
+
+- Logo images should be hosted on a CDN for optimal loading
+- Test animations across different devices and browsers
+- Consider animation duration based on your target audience
+- Use WebP format for logos when possible for better compression
+
+## 📄 License
+
+MIT – Professional mini-app admin template with advanced splash screen and animation system. Perfect for building branded admin panels for gaming ecosystems, DeFi platforms, and Web3 applications.
+
+**Created by Adrijan Petek**
 
 ---
 
-## 🛠 Tech Stack
+## 🎯 Quick Feature Reference
 
-- [Next.js 14 (App Router)](https://nextjs.org/)
-- [React 18](https://react.dev/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [jose](https://github.com/panva/jose) for JWT signing / verification
+| Feature | Location | Description |
+|---------|----------|-------------|
+| Splash Screen | `/` | Customizable loading screen with animations |
+| Logo Config | `/admin/settings` | Upload custom logos with size options |
+| Animations | `/admin/settings` | 10 animation types with speed control |
+| Theme Settings | `/admin/settings` | Complete UI customization |
+| Game Management | `/admin/*` | Match-3, Card Game, Daily Claim configs |
+| Treasury | `/admin/treasury` | Multi-token balance management |
+| Announcements | `/admin/announcements` | Live scrolling announcements |
+| Leaderboard | `/admin/leaderboard` | Player rankings and rewards |
+| Mini Apps | `/admin/miniapps` | Ecosystem management |
+
+---
+
+## 🔧 Development Commands
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Start production server
+npm start
+
+# Run linting
+npm run lint
+```
+
+---
+
+## 🌟 What's New in v2.1.0
+
+- ✨ **Splash Screen System**: Professional loading screen with custom logos
+- 🎭 **10 Animation Types**: Comprehensive animation library
+- 🎨 **Advanced Settings**: Enhanced admin configuration panel
+- 🔧 **Custom CSS/JS**: Developer injection capabilities
+- 📱 **Mobile Optimization**: Responsive animation system
+- 🎯 **Branding Integration**: Dynamic app branding from settings
+- ⚡ **Performance**: Optimized animations with 60fps performance
+- 🛡️ **Error Handling**: Graceful fallbacks for failed resources
 
 ---
 
@@ -185,8 +352,12 @@ miniapp-admin-kit/
 │  ├─ layout.tsx                 # Root layout
 │  ├─ page.tsx                   # Redirects to /login or /admin
 │  ├─ globals.css                # Tailwind + base styles
+│  ├─ components/
+│  │  ├─ HomePage.tsx            # Main page with splash screen
+│  │  └─ SplashScreen.tsx        # Customizable splash screen component
 │  ├─ lib/
-│  │  └─ auth.ts                 # JWT helpers (create/verify session token)
+│  │  ├─ auth.ts                 # JWT helpers (create/verify session token)
+│  │  └─ hooks/                  # All data management hooks
 │  ├─ login/
 │  │  └─ page.tsx                # Admin login screen
 │  ├─ api/
@@ -199,8 +370,16 @@ miniapp-admin-kit/
 │     │  └─ page.tsx             # Announcement manager UI (local state demo)
 │     ├─ rewards/
 │     │  └─ page.tsx             # Reward batch editor UI scaffold
-│     └─ settings/
-│        └─ page.tsx             # Auth/env + integration hints
+│     ├─ miniapps/
+│     │  └─ page.tsx             # Mini-app ecosystem manager
+│     ├─ settings/
+│     │  └─ page.tsx             # Enhanced settings with splash screen config
+│     ├─ leaderboard/
+│     │  └─ page.tsx             # Leaderboard management
+│     ├─ treasury/
+│     │  └─ page.tsx             # Treasury management
+│     └─ pages/
+│        └─ page.tsx             # Custom pages manager
 ├─ public/
 ├─ .github/
 │  └─ workflows/
@@ -264,15 +443,73 @@ This is intentionally **off-chain** and **backend-agnostic**.
 
 `/admin/settings`
 
-Documents:
+The enhanced settings page now includes:
 
-- Which env vars are used for auth
-- Ideas on how to integrate with:
-  - Announcements storage
-  - Reward distribution backend
-  - Per-mini-app configs (Match-3, Card Game, Daily Claim)
+### Basic Settings
+- Auth configuration and environment variables
+- Theme customization (colors, fonts, logos)
+- Game parameters and access controls
 
-You can extend this with switches, toggles, numeric fields tied to your backend.
+### Advanced Settings (New)
+- **Splash Screen Configuration**:
+  - Custom logo URL and size selection
+  - Animation type selection (10 options)
+  - Animation speed control
+- **Animation Controls**:
+  - Global animation enable/disable
+  - Animation speed settings
+- **Developer Options**:
+  - Custom CSS injection
+  - Custom JavaScript injection
+- **Contract Addresses**: Mockup addresses for development
+
+### Integration Guides
+- Backend API connection instructions
+- Smart contract integration hints
+- Database setup recommendations
+- Deployment configuration tips
+
+All settings are automatically saved to localStorage and persist across sessions.
+
+## 🚀 New Features Guide
+
+### Splash Screen Customization
+
+**First-Time User Experience:**
+1. Visit your main page (`/`)
+2. The splash screen appears for 3 seconds with your chosen animation
+3. Main content loads with smooth transitions
+
+**Admin Configuration:**
+1. Go to `/admin/settings`
+2. Scroll to "Advanced Settings" section
+3. Configure logo, animation, and branding
+4. Changes apply immediately
+
+**Animation Types Explained:**
+- **Bounce**: Energetic, playful entrance perfect for gaming apps
+- **Fade**: Elegant, professional transition for business applications
+- **Slide**: Modern, directional movement for dynamic brands
+- **Zoom**: Dramatic scale effects for impactful presentations
+- **Rotate**: Fun, spinning animation for creative projects
+- **Pulse**: Subtle, breathing effect for calm, trustworthy feel
+- **Shake**: Attention-grabbing motion for important announcements
+- **Flip**: 3D perspective effect for innovative, tech-forward brands
+- **Glow**: Magical, illuminated appearance for premium products
+- **Wave**: Fluid, organic motion for nature or wellness apps
+
+### Performance Considerations
+
+- Animations are optimized for 60fps performance
+- Custom logos are lazy-loaded with error fallbacks
+- Settings are cached in localStorage for instant loading
+- Build size remains optimized with tree-shaking
+
+### Browser Compatibility
+
+- Modern browsers with CSS animation support
+- Graceful degradation for older browsers
+- Mobile-optimized animations and touch interactions
 
 ---
 

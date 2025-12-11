@@ -34,7 +34,7 @@ export default function PublicPage({ isLoggedIn }: PublicPageProps) {
 
             {/* Navigation Menu */}
             <nav className="hidden md:flex space-x-8">
-              {settings.menuItems.filter(item => item.enabled).map(item => (
+              {settings.menuItems?.filter(item => item.enabled).map(item => (
                 <a
                   key={item.id}
                   href={item.url}
@@ -72,7 +72,7 @@ export default function PublicPage({ isLoggedIn }: PublicPageProps) {
         {/* Mobile Navigation */}
         <div className="md:hidden border-t border-gray-200">
           <nav className="px-4 py-3 space-y-1">
-            {settings.menuItems.filter(item => item.enabled).map(item => (
+            {settings.menuItems?.filter(item => item.enabled).map(item => (
               <a
                 key={item.id}
                 href={item.url}
@@ -100,9 +100,9 @@ export default function PublicPage({ isLoggedIn }: PublicPageProps) {
               </div>
             </div>
           )}
-          {settings.showGames && settings.menuItems.filter(item => item.enabled).length > 0 && (
+          {settings.showGames && settings.menuItems?.filter(item => item.enabled).length > 0 && (
             <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-              {settings.menuItems.filter(item => item.enabled).map(item => (
+              {settings.menuItems?.filter(item => item.enabled).map(item => (
                 <a
                   key={item.id}
                   href={item.url}

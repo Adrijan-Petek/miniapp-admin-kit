@@ -23,6 +23,9 @@ export default async function AdminLayout({
           <div className="text-[11px] text-slate-400">Signed in as {user.username}</div>
         </div>
         <nav className="flex-1 px-2 py-3 text-sm space-y-1">
+          <Link href="/" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800 text-blue-400 hover:text-blue-300">
+            🏠 Back to Main Page
+          </Link>
           <Link href="/admin" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
             📊 Dashboard
           </Link>

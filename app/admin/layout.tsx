@@ -29,6 +29,9 @@ export default async function AdminLayout({
           <Link href="/admin/announcements" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
             📢 Announcements
           </Link>
+          <Link href="/admin/analytics" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
+            📊 Analytics
+          </Link>
           <Link href="/admin/contracts" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
             📋 Contracts
           </Link>
@@ -41,6 +44,9 @@ export default async function AdminLayout({
           <Link href="/admin/leaderboard" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
             🏆 Leaderboard
           </Link>
+          <Link href="/admin/logs" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
+            📋 Logs
+          </Link>
           <Link href="/admin/miniapps" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
             🎮 Mini Apps
           </Link>
@@ -52,6 +58,9 @@ export default async function AdminLayout({
           </Link>
           <Link href="/admin/treasury" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
             💰 Treasury
+          </Link>
+          <Link href="/admin/users" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
+            👥 Users
           </Link>
         </nav>
         <div className="px-4 py-3 border-t border-slate-800 text-[11px] text-slate-500 flex justify-between items-center">

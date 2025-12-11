@@ -11,6 +11,10 @@ export default function HomePage() {
   const { settings } = useSettings()
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null)
   const [showSplash, setShowSplash] = useState(true)
+  const [logoClickCount, setLogoClickCount] = useState(0)
+  const [showAdminLogin, setShowAdminLogin] = useState(false)
+  const [adminCredentials, setAdminCredentials] = useState({ username: '', password: '' })
+  const [loginError, setLoginError] = useState('')
   const router = useRouter()
 
   // Safety check - if settings is not loaded yet, show loading
@@ -33,6 +37,45 @@ export default function HomePage() {
 
   const handleSplashComplete = () => {
     setShowSplash(false)
+  }
+
+  const handleLogoClick = () => {
+    setLogoClickCount(prev => {
+      const newCount = prev + 1
+      if (newCount >= 5) {
+        setShowAdminLogin(true)
+        return 0 // Reset counter
+      }
+      return newCount
+    })
+  }
+
+  const handleAdminLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoginError('')
+
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(adminCredentials),
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        // Store the token in cookie (this is handled by the API)
+        setShowAdminLogin(false)
+        setAdminCredentials({ username: '', password: '' })
+        setIsLoggedIn(true)
+        router.push('/admin')
+      } else {
+        setLoginError('Invalid credentials')
+      }
+    } catch (error) {
+      setLoginError('Login failed. Please try again.')
+    }
   }
 
   useEffect(() => {
@@ -72,7 +115,7 @@ export default function HomePage() {
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex justify-between items-center">
             {/* Logo */}
-            <div className="flex items-center">
+            <div className="flex items-center cursor-pointer" onClick={handleLogoClick}>
               {settings.showLogo && settings.logoUrl && (
                 <img src={settings.logoUrl} alt="Logo" className="h-10 w-auto" />
               )}
@@ -95,35 +138,6 @@ export default function HomePage() {
                 </a>
               ))}
             </nav>
-
-            {/* Admin Actions */}
-            <div className="flex items-center space-x-4">
-              {isLoggedIn ? (
-                <a
-                  href="/admin"
-                  className="px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
-                  style={{
-                    backgroundColor: settings.primaryColor,
-                    color: 'white'
-                  }}
-                >
-                  Admin Panel
-                </a>
-              ) : (
-                settings.showAdminLogin && (
-                  <a
-                    href="/login"
-                    className="px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
-                    style={{
-                      backgroundColor: settings.secondaryColor,
-                      color: 'white'
-                    }}
-                  >
-                    Admin Login
-                  </a>
-                )
-              )}
-            </div>
           </div>
 
           {/* Mobile Navigation */}
@@ -289,6 +303,77 @@ export default function HomePage() {
             </div>
           </div>
         </footer>
+      )}
+
+      {/* Admin Login Modal */}
+      {showAdminLogin && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+          <div className="bg-slate-900 border border-slate-700 rounded-xl p-6 w-full max-w-md mx-4">
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-2xl">
+                <span className="text-3xl">🔐</span>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Admin Access</h3>
+              <p className="text-sm text-slate-400">Enter your administrator credentials</p>
+            </div>
+
+            <form onSubmit={handleAdminLogin} className="space-y-4">
+              <div>
+                <label className="block text-sm mb-1">Username</label>
+                <input
+                  type="text"
+                  value={adminCredentials.username}
+                  onChange={(e) => setAdminCredentials(prev => ({ ...prev, username: e.target.value }))}
+                  className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded text-sm focus:outline-none focus:border-blue-500"
+                  placeholder="Enter username"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm mb-1">Password</label>
+                <input
+                  type="password"
+                  value={adminCredentials.password}
+                  onChange={(e) => setAdminCredentials(prev => ({ ...prev, password: e.target.value }))}
+                  className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded text-sm focus:outline-none focus:border-blue-500"
+                  placeholder="Enter password"
+                  required
+                />
+              </div>
+
+              {loginError && (
+                <div className="text-red-400 text-sm text-center">
+                  {loginError}
+                </div>
+              )}
+
+              <div className="flex gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowAdminLogin(false)
+                    setAdminCredentials({ username: '', password: '' })
+                    setLoginError('')
+                  }}
+                  className="flex-1 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-sm font-medium rounded transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-sm font-medium rounded transition-colors"
+                >
+                  Login
+                </button>
+              </div>
+            </form>
+
+            <div className="mt-4 text-center text-xs text-slate-500">
+              Click the logo 5 times to access admin panel
+            </div>
+          </div>
+        </div>
       )}
     </div>
   )

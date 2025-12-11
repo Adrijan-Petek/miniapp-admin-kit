@@ -26,29 +26,32 @@ export default async function AdminLayout({
           <Link href="/" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800 text-blue-400 hover:text-blue-300">
             🏠 Back to Main Page
           </Link>
-          <Link href="/admin" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
-            📊 Dashboard
-          </Link>
           <Link href="/admin/announcements" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
             📢 Announcements
           </Link>
-          <Link href="/admin/rewards" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
-            🎁 Rewards
+          <Link href="/admin/contracts" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
+            📋 Contracts
           </Link>
-          <Link href="/admin/miniapps" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
-            🎮 Mini Apps
+          <Link href="/admin" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
+            📊 Dashboard
           </Link>
-          <Link href="/admin/treasury" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
-            💰 Treasury
+          <Link href="/admin/games" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
+            🎮 Games
           </Link>
           <Link href="/admin/leaderboard" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
             🏆 Leaderboard
           </Link>
+          <Link href="/admin/miniapps" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
+            🎮 Mini Apps
+          </Link>
+          <Link href="/admin/rewards" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
+            🎁 Rewards
+          </Link>
           <Link href="/admin/settings" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
             ⚙️ Settings
           </Link>
-          <Link href="/admin/contracts" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
-            📋 Contracts
+          <Link href="/admin/treasury" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
+            💰 Treasury
           </Link>
         </nav>
         <div className="px-4 py-3 border-t border-slate-800 text-[11px] text-slate-500 flex justify-between items-center">

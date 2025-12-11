@@ -24,6 +24,9 @@ export interface Settings {
   logoUrl: string
   backgroundImageUrl: string
   faviconUrl: string
+  primaryColor: string
+  secondaryColor: string
+  accentColor: string
 
   // App Information
   appName: string
@@ -31,12 +34,15 @@ export interface Settings {
   appVersion: string
   contactEmail: string
   supportUrl: string
+  tagline: string
 
   // Social & Links
   twitterUrl: string
   discordUrl: string
   telegramUrl: string
   websiteUrl: string
+  githubUrl: string
+  instagramUrl: string
 
   // Features & Access
   adminAccessMode: 'admins' | 'owner'
@@ -47,11 +53,13 @@ export interface Settings {
   // Analytics & Tracking
   googleAnalyticsId: string
   enableAnalytics: boolean
+  enableTracking: boolean
 
   // SEO & Meta
   metaTitle: string
   metaDescription: string
   metaKeywords: string
+  ogImageUrl: string
 
   // Privacy & Terms
   privacyPolicyUrl: string
@@ -63,13 +71,57 @@ export interface Settings {
   pushNotifications: boolean
   maintenanceMessage: string
 
+  // Header Settings
+  showHeader: boolean
+  headerBackgroundColor: string
+  headerTextColor: string
+  headerHeight: string
+  headerShadow: boolean
+
+  // Hero Section
+  showHero: boolean
+  heroTitle: string
+  heroSubtitle: string
+  heroBackgroundColor: string
+  heroTextColor: string
+  heroImageUrl: string
+  heroButtonText: string
+  heroButtonUrl: string
+  heroButtonColor: string
+
+  // Menu/Card Settings
+  menuLayout: 'grid' | 'list' | 'carousel'
+  menuColumns: number
+  menuCardBackground: string
+  menuCardHoverColor: string
+  menuCardBorderRadius: string
+  menuCardShadow: boolean
+  menuIconSize: string
+  menuTitleColor: string
+  menuDescriptionColor: string
+
   // Public Page Display
   showLogo: boolean
   showAnnouncements: boolean
   showGames: boolean
   showAdminLogin: boolean
+  showFooter: boolean
+  showSocialLinks: boolean
+  showContactInfo: boolean
   menuItems: MenuItem[]
   customPages: CustomPage[]
+
+  // Footer Settings
+  footerBackgroundColor: string
+  footerTextColor: string
+  footerCopyright: string
+  footerLinks: Array<{ title: string; url: string }>
+
+  // Advanced
+  customCSS: string
+  customJS: string
+  enableAnimations: boolean
+  animationSpeed: 'slow' | 'normal' | 'fast'
 }
 
 export function useSettings() {
@@ -80,6 +132,9 @@ export function useSettings() {
     logoUrl: 'https://example.com/logo.png',
     backgroundImageUrl: 'https://example.com/bg.png',
     faviconUrl: 'https://example.com/favicon.ico',
+    primaryColor: '#3b82f6',
+    secondaryColor: '#64748b',
+    accentColor: '#f59e0b',
 
     // App Information
     appName: 'MiniApp',
@@ -87,12 +142,15 @@ export function useSettings() {
     appVersion: '1.0.0',
     contactEmail: 'support@example.com',
     supportUrl: 'https://example.com/support',
+    tagline: 'Your Ultimate Gaming Experience',
 
     // Social & Links
     twitterUrl: '',
     discordUrl: '',
     telegramUrl: '',
     websiteUrl: '',
+    githubUrl: '',
+    instagramUrl: '',
 
     // Features & Access
     adminAccessMode: 'owner',
@@ -103,11 +161,13 @@ export function useSettings() {
     // Analytics & Tracking
     googleAnalyticsId: '',
     enableAnalytics: false,
+    enableTracking: false,
 
     // SEO & Meta
     metaTitle: 'MiniApp - Play Games & Earn Rewards',
     metaDescription: 'Play games, earn rewards, and claim your tokens in our mini app ecosystem.',
     metaKeywords: 'games, rewards, tokens, mini app',
+    ogImageUrl: 'https://example.com/og-image.png',
 
     // Privacy & Terms
     privacyPolicyUrl: '',
@@ -119,11 +179,43 @@ export function useSettings() {
     pushNotifications: true,
     maintenanceMessage: 'We are currently performing maintenance. Please check back soon.',
 
+    // Header Settings
+    showHeader: true,
+    headerBackgroundColor: '#ffffff',
+    headerTextColor: '#000000',
+    headerHeight: '4rem',
+    headerShadow: true,
+
+    // Hero Section
+    showHero: true,
+    heroTitle: 'Welcome to MiniApp',
+    heroSubtitle: 'Play games, earn rewards, and claim your tokens!',
+    heroBackgroundColor: '#ffffff',
+    heroTextColor: '#000000',
+    heroImageUrl: '',
+    heroButtonText: 'Get Started',
+    heroButtonUrl: '/login',
+    heroButtonColor: '#3b82f6',
+
+    // Menu/Card Settings
+    menuLayout: 'grid',
+    menuColumns: 3,
+    menuCardBackground: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
+    menuCardHoverColor: 'linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%)',
+    menuCardBorderRadius: '0.75rem',
+    menuCardShadow: true,
+    menuIconSize: '3rem',
+    menuTitleColor: '#000000',
+    menuDescriptionColor: '#64748b',
+
     // Public Page Display
     showLogo: true,
     showAnnouncements: true,
     showGames: true,
     showAdminLogin: true,
+    showFooter: true,
+    showSocialLinks: true,
+    showContactInfo: true,
     menuItems: [
       {
         id: '1',
@@ -165,7 +257,23 @@ export function useSettings() {
         content: 'Need help? Check out our FAQ and contact information.',
         published: false
       }
-    ]
+    ],
+
+    // Footer Settings
+    footerBackgroundColor: '#f8fafc',
+    footerTextColor: '#64748b',
+    footerCopyright: '© 2025 MiniApp. All rights reserved.',
+    footerLinks: [
+      { title: 'Privacy Policy', url: '/privacy' },
+      { title: 'Terms of Service', url: '/terms' },
+      { title: 'Contact', url: '/contact' }
+    ],
+
+    // Advanced
+    customCSS: '',
+    customJS: '',
+    enableAnimations: true,
+    animationSpeed: 'normal'
   })
 
   useEffect(() => {

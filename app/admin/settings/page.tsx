@@ -293,6 +293,320 @@ export default function SettingsPage() {
         </div>
       </section>
 
+      {/* Header Settings */}
+      <section className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
+        <h2 className="text-sm font-semibold mb-3">📋 Header Settings</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                checked={settings.showHeader}
+                onChange={(e) => updateSetting('showHeader', e.target.checked)}
+                className="rounded border-slate-600 bg-slate-900"
+              />
+              <span className="text-xs">Show Header</span>
+            </label>
+          </div>
+          <div>
+            <label className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                checked={settings.headerShadow}
+                onChange={(e) => updateSetting('headerShadow', e.target.checked)}
+                className="rounded border-slate-600 bg-slate-900"
+              />
+              <span className="text-xs">Header Shadow</span>
+            </label>
+          </div>
+          <div>
+            <label className="block text-xs mb-1">Header Background Color</label>
+            <input
+              type="color"
+              value={settings.headerBackgroundColor}
+              onChange={(e) => updateSetting('headerBackgroundColor', e.target.value)}
+              className="w-full h-10 rounded border border-slate-600 bg-slate-900"
+            />
+          </div>
+          <div>
+            <label className="block text-xs mb-1">Header Text Color</label>
+            <input
+              type="color"
+              value={settings.headerTextColor}
+              onChange={(e) => updateSetting('headerTextColor', e.target.value)}
+              className="w-full h-10 rounded border border-slate-600 bg-slate-900"
+            />
+          </div>
+          <div>
+            <label className="block text-xs mb-1">Header Height</label>
+            <select
+              value={settings.headerHeight}
+              onChange={(e) => updateSetting('headerHeight', e.target.value)}
+              className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs"
+            >
+              <option value="3rem">Small (3rem)</option>
+              <option value="4rem">Medium (4rem)</option>
+              <option value="5rem">Large (5rem)</option>
+              <option value="6rem">Extra Large (6rem)</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      {/* Hero Section */}
+      <section className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
+        <h2 className="text-sm font-semibold mb-3">🎯 Hero Section</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                checked={settings.showHero}
+                onChange={(e) => updateSetting('showHero', e.target.checked)}
+                className="rounded border-slate-600 bg-slate-900"
+              />
+              <span className="text-xs">Show Hero Section</span>
+            </label>
+          </div>
+          <div>
+            <label className="block text-xs mb-1">Hero Background Color</label>
+            <input
+              type="color"
+              value={settings.heroBackgroundColor}
+              onChange={(e) => updateSetting('heroBackgroundColor', e.target.value)}
+              className="w-full h-10 rounded border border-slate-600 bg-slate-900"
+            />
+          </div>
+          <div>
+            <label className="block text-xs mb-1">Hero Text Color</label>
+            <input
+              type="color"
+              value={settings.heroTextColor}
+              onChange={(e) => updateSetting('heroTextColor', e.target.value)}
+              className="w-full h-10 rounded border border-slate-600 bg-slate-900"
+            />
+          </div>
+          <div>
+            <label className="block text-xs mb-1">Button Color</label>
+            <input
+              type="color"
+              value={settings.heroButtonColor}
+              onChange={(e) => updateSetting('heroButtonColor', e.target.value)}
+              className="w-full h-10 rounded border border-slate-600 bg-slate-900"
+            />
+          </div>
+          <div className="md:col-span-2">
+            <label className="block text-xs mb-1">Hero Title</label>
+            <input
+              value={settings.heroTitle}
+              onChange={(e) => updateSetting('heroTitle', e.target.value)}
+              className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs"
+              placeholder="Welcome to MiniApp"
+            />
+          </div>
+          <div className="md:col-span-2">
+            <label className="block text-xs mb-1">Hero Subtitle</label>
+            <textarea
+              value={settings.heroSubtitle}
+              onChange={(e) => updateSetting('heroSubtitle', e.target.value)}
+              className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs"
+              rows={2}
+              placeholder="Play games, earn rewards, and claim your tokens!"
+            />
+          </div>
+          <div>
+            <label className="block text-xs mb-1">Button Text</label>
+            <input
+              value={settings.heroButtonText}
+              onChange={(e) => updateSetting('heroButtonText', e.target.value)}
+              className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs"
+              placeholder="Get Started"
+            />
+          </div>
+          <div>
+            <label className="block text-xs mb-1">Button URL</label>
+            <input
+              value={settings.heroButtonUrl}
+              onChange={(e) => updateSetting('heroButtonUrl', e.target.value)}
+              className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs"
+              placeholder="/login"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Menu/Card Styling */}
+      <section className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
+        <h2 className="text-sm font-semibold mb-3">🎨 Menu/Card Styling</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-xs mb-1">Menu Layout</label>
+            <select
+              value={settings.menuLayout}
+              onChange={(e) => updateSetting('menuLayout', e.target.value as 'grid' | 'list' | 'carousel')}
+              className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs"
+            >
+              <option value="grid">Grid</option>
+              <option value="list">List</option>
+              <option value="carousel">Carousel</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-xs mb-1">Grid Columns</label>
+            <select
+              value={settings.menuColumns}
+              onChange={(e) => updateSetting('menuColumns', parseInt(e.target.value))}
+              className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs"
+            >
+              <option value={1}>1 Column</option>
+              <option value={2}>2 Columns</option>
+              <option value={3}>3 Columns</option>
+              <option value={4}>4 Columns</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-xs mb-1">Card Background</label>
+            <input
+              value={settings.menuCardBackground}
+              onChange={(e) => updateSetting('menuCardBackground', e.target.value)}
+              className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs"
+              placeholder="linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)"
+            />
+          </div>
+          <div>
+            <label className="block text-xs mb-1">Card Hover Color</label>
+            <input
+              value={settings.menuCardHoverColor}
+              onChange={(e) => updateSetting('menuCardHoverColor', e.target.value)}
+              className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs"
+              placeholder="linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%)"
+            />
+          </div>
+          <div>
+            <label className="block text-xs mb-1">Border Radius</label>
+            <select
+              value={settings.menuCardBorderRadius}
+              onChange={(e) => updateSetting('menuCardBorderRadius', e.target.value)}
+              className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs"
+            >
+              <option value="0.5rem">Small (0.5rem)</option>
+              <option value="0.75rem">Medium (0.75rem)</option>
+              <option value="1rem">Large (1rem)</option>
+              <option value="1.5rem">Extra Large (1.5rem)</option>
+            </select>
+          </div>
+          <div>
+            <label className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                checked={settings.menuCardShadow}
+                onChange={(e) => updateSetting('menuCardShadow', e.target.checked)}
+                className="rounded border-slate-600 bg-slate-900"
+              />
+              <span className="text-xs">Card Shadow</span>
+            </label>
+          </div>
+          <div>
+            <label className="block text-xs mb-1">Icon Size</label>
+            <select
+              value={settings.menuIconSize}
+              onChange={(e) => updateSetting('menuIconSize', e.target.value)}
+              className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs"
+            >
+              <option value="2rem">Small (2rem)</option>
+              <option value="2.5rem">Medium (2.5rem)</option>
+              <option value="3rem">Large (3rem)</option>
+              <option value="3.5rem">Extra Large (3.5rem)</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-xs mb-1">Title Color</label>
+            <input
+              type="color"
+              value={settings.menuTitleColor}
+              onChange={(e) => updateSetting('menuTitleColor', e.target.value)}
+              className="w-full h-10 rounded border border-slate-600 bg-slate-900"
+            />
+          </div>
+          <div>
+            <label className="block text-xs mb-1">Description Color</label>
+            <input
+              type="color"
+              value={settings.menuDescriptionColor}
+              onChange={(e) => updateSetting('menuDescriptionColor', e.target.value)}
+              className="w-full h-10 rounded border border-slate-600 bg-slate-900"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Footer Settings */}
+      <section className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
+        <h2 className="text-sm font-semibold mb-3">📄 Footer Settings</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                checked={settings.showFooter}
+                onChange={(e) => updateSetting('showFooter', e.target.checked)}
+                className="rounded border-slate-600 bg-slate-900"
+              />
+              <span className="text-xs">Show Footer</span>
+            </label>
+          </div>
+          <div>
+            <label className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                checked={settings.showSocialLinks}
+                onChange={(e) => updateSetting('showSocialLinks', e.target.checked)}
+                className="rounded border-slate-600 bg-slate-900"
+              />
+              <span className="text-xs">Show Social Links</span>
+            </label>
+          </div>
+          <div>
+            <label className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                checked={settings.showContactInfo}
+                onChange={(e) => updateSetting('showContactInfo', e.target.checked)}
+                className="rounded border-slate-600 bg-slate-900"
+              />
+              <span className="text-xs">Show Contact Info</span>
+            </label>
+          </div>
+          <div>
+            <label className="block text-xs mb-1">Footer Background Color</label>
+            <input
+              type="color"
+              value={settings.footerBackgroundColor}
+              onChange={(e) => updateSetting('footerBackgroundColor', e.target.value)}
+              className="w-full h-10 rounded border border-slate-600 bg-slate-900"
+            />
+          </div>
+          <div>
+            <label className="block text-xs mb-1">Footer Text Color</label>
+            <input
+              type="color"
+              value={settings.footerTextColor}
+              onChange={(e) => updateSetting('footerTextColor', e.target.value)}
+              className="w-full h-10 rounded border border-slate-600 bg-slate-900"
+            />
+          </div>
+          <div className="md:col-span-2">
+            <label className="block text-xs mb-1">Footer Copyright</label>
+            <input
+              value={settings.footerCopyright}
+              onChange={(e) => updateSetting('footerCopyright', e.target.value)}
+              className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs"
+              placeholder="© 2025 MiniApp. All rights reserved."
+            />
+          </div>
+        </div>
+      </section>
+
       {/* Social Links */}
       <section className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
         <h2 className="text-sm font-semibold mb-3">🔗 Social Links</h2>

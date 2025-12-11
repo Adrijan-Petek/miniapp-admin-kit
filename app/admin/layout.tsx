@@ -47,6 +47,9 @@ export default async function AdminLayout({
           <Link href="/admin/settings" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
             ⚙️ Settings
           </Link>
+          <Link href="/admin/contracts" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
+            📋 Contracts
+          </Link>
         </nav>
         <div className="px-4 py-3 border-t border-slate-800 text-[11px] text-slate-500 flex justify-between items-center">
           <span>MiniApp Admin Kit • Created by Adrijan Petek</span>

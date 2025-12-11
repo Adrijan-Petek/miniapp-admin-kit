@@ -985,17 +985,6 @@ export default function SettingsPage() {
       </section>
 
       <section className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
-        <h2 className="text-sm font-semibold mb-3">📋 Contract Addresses (Mockup)</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-          <div>Treasury: 0x1234567890123456789012345678901234567890</div>
-          <div>Match3Game: 0x2345678901234567890123456789012345678901</div>
-          <div>CardGame: 0x3456789012345678901234567890123456789012</div>
-          <div>DailyClaim: 0x4567890123456789012345678901234567890123</div>
-          <div>Token: 0x5678901234567890123456789012345678901234</div>
-        </div>
-      </section>
-
-      <section className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
         <h2 className="text-sm font-semibold mb-3">🎭 Advanced Settings</h2>
         <div className="space-y-4">
           {/* Splash Screen Settings */}

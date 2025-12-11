@@ -15,6 +15,7 @@ export interface MenuItem {
   icon: string
   url: string
   enabled: boolean
+  adminOnly: boolean
 }
 
 export interface Settings {
@@ -237,7 +238,8 @@ export function useSettings() {
         description: 'Classic puzzle game',
         icon: '🎮',
         url: '/games/match3',
-        enabled: true
+        enabled: true,
+        adminOnly: false
       },
       {
         id: '2',
@@ -245,7 +247,8 @@ export function useSettings() {
         description: 'Fun card matching',
         icon: '🃏',
         url: '/games/cards',
-        enabled: true
+        enabled: true,
+        adminOnly: false
       },
       {
         id: '3',
@@ -253,7 +256,17 @@ export function useSettings() {
         description: 'Daily rewards',
         icon: '📅',
         url: '/daily',
-        enabled: true
+        enabled: true,
+        adminOnly: false
+      },
+      {
+        id: '4',
+        title: '⚙️ Admin Panel',
+        description: 'Administrative controls',
+        icon: '⚙️',
+        url: '/admin',
+        enabled: true,
+        adminOnly: true
       }
     ],
     customPages: [

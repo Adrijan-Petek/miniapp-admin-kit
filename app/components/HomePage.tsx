@@ -126,7 +126,7 @@ export default function HomePage() {
 
             {/* Navigation Menu */}
             <nav className="hidden md:flex space-x-8">
-              {settings.menuItems?.filter(item => item.enabled).map(item => (
+              {settings.menuItems?.filter(item => item.enabled && (!item.adminOnly || isLoggedIn)).map(item => (
                 <a
                   key={item.id}
                   href={item.url}
@@ -143,7 +143,7 @@ export default function HomePage() {
           {/* Mobile Navigation */}
           <div className="md:hidden border-t border-slate-800">
             <nav className="px-4 py-3 space-y-1">
-              {settings.menuItems?.filter(item => item.enabled).map(item => (
+              {settings.menuItems?.filter(item => item.enabled && (!item.adminOnly || isLoggedIn)).map(item => (
                 <a
                   key={item.id}
                   href={item.url}
@@ -209,7 +209,7 @@ export default function HomePage() {
                   : 'flex overflow-x-auto space-x-4 pb-4'
               }`}
             >
-              {settings.menuItems?.filter(item => item.enabled).map(item => (
+              {settings.menuItems?.filter(item => item.enabled && (!item.adminOnly || isLoggedIn)).map(item => (
                 <a
                   key={item.id}
                   href={item.url}

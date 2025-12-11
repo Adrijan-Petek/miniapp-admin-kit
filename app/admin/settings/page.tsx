@@ -251,19 +251,34 @@ export default function SettingsPage() {
                 </div>
               </div>
               <div className="flex items-center justify-between mt-3">
-                <label className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    checked={item.enabled}
-                    onChange={(e) => {
-                      const newItems = [...settings.menuItems]
-                      newItems[index].enabled = e.target.checked
-                      updateSetting('menuItems', newItems)
-                    }}
-                    className="rounded border-slate-600 bg-slate-900"
-                  />
-                  <span className="text-xs">Enabled</span>
-                </label>
+                <div className="flex items-center space-x-4">
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={item.enabled}
+                      onChange={(e) => {
+                        const newItems = [...settings.menuItems]
+                        newItems[index].enabled = e.target.checked
+                        updateSetting('menuItems', newItems)
+                      }}
+                      className="rounded border-slate-600 bg-slate-900"
+                    />
+                    <span className="text-xs">Enabled</span>
+                  </label>
+                  <label className="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      checked={item.adminOnly}
+                      onChange={(e) => {
+                        const newItems = [...settings.menuItems]
+                        newItems[index].adminOnly = e.target.checked
+                        updateSetting('menuItems', newItems)
+                      }}
+                      className="rounded border-slate-600 bg-slate-900"
+                    />
+                    <span className="text-xs">Admin Only</span>
+                  </label>
+                </div>
                 <button
                   onClick={() => {
                     const newItems = settings.menuItems.filter((_, i) => i !== index)
@@ -284,7 +299,8 @@ export default function SettingsPage() {
                 description: 'Description',
                 icon: '⭐',
                 url: '/',
-                enabled: true
+                enabled: true,
+                adminOnly: false
               }
               updateSetting('menuItems', [...settings.menuItems, newItem])
             }}

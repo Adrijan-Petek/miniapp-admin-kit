@@ -55,20 +55,35 @@ A professional, full-stack admin panel template for managing mini-apps, built wi
    npm install
    ```
 
-3. **Set environment variables**
+3. **Set up Supabase Database**
+   ```bash
+   # Create a new Supabase project at https://supabase.com
+
+   # Copy the database schema
+   # Go to your Supabase dashboard > SQL Editor
+   # Run the contents of database-schema.sql
+   ```
+
+4. **Set environment variables**
    Create `.env.local`:
    ```bash
+   # Admin Authentication
    ADMIN_USERNAME="admin"
    ADMIN_PASSWORD="your-secure-password"
    ADMIN_JWT_SECRET="your-long-random-jwt-secret"
+
+   # Supabase Configuration
+   NEXT_PUBLIC_SUPABASE_URL="your-supabase-project-url"
+   NEXT_PUBLIC_SUPABASE_ANON_KEY="your-supabase-anon-key"
+   SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
    ```
 
-4. **Run development server**
+5. **Run development server**
    ```bash
    npm run dev
    ```
 
-5. **Access the app**
+6. **Access the app**
    - Public page: `http://localhost:3000`
    - Admin login: Click "Admin Login" or go to `/login`
    - Default credentials: `admin` / `password`

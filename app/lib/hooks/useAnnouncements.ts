@@ -1,52 +1,124 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { dbHelpers } from '../supabase'
 
 export interface Announcement {
   id: number
   text: string
   charCount: number
+  created_at?: string
+  updated_at?: string
 }
 
 export function useAnnouncements() {
-  const [announcements, setAnnouncements] = useState<Announcement[]>([
-    {
-      id: 1,
-      text: 'Reach Level 15 for 10,000 Tokens, Level 20 for 15,000 Tokens, and Level 30 for a massive 30,000 Tokens. Claim everything directly from your profile.',
-      charCount: 142
-    },
-    {
-      id: 2,
-      text: 'You get 1 free Match-3 and 1 free Card Game play every day - use them before they reset!',
-      charCount: 88
-    },
-    {
-      id: 3,
-      text: 'Boosters are live in Match-3! Use Hammer, Shuffle, and Color Bomb to chase higher scores and more Tokens.',
-      charCount: 103
-    },
-    {
-      id: 4,
-      text: 'New leaderboard season is coming - play Match-3 and Card Game now to secure your spot and earn Token prizes.',
-      charCount: 107
-    },
-    {
-      id: 5,
-      text: 'Play games, earn Tokens, and claim your rewards directly from your profile. More Token utilities coming soon!',
-      charCount: 106
+  const [announcements, setAnnouncements] = useState<Announcement[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  // Load announcements from database
+  useEffect(() => {
+    loadAnnouncements()
+  }, [])
+
+  const loadAnnouncements = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      const data = await dbHelpers.getAnnouncements()
+      setAnnouncements(data.map(item => ({
+        id: item.id,
+        text: item.text,
+        charCount: item.char_count,
+        created_at: item.created_at,
+        updated_at: item.updated_at
+      })))
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load announcements')
+      console.error('Error loading announcements:', err)
+    } finally {
+      setLoading(false)
     }
-  ])
-
-  const updateAnnouncement = (id: number, text: string) => {
-    setAnnouncements(prev => prev.map(a => a.id === id ? { ...a, text, charCount: text.length } : a))
   }
 
-  const clearAll = () => {
-    setAnnouncements([])
+  const updateAnnouncement = async (id: number, text: string) => {
+    try {
+      setError(null)
+      const updated = await dbHelpers.updateAnnouncement(id, text)
+      setAnnouncements(prev => prev.map(a =>
+        a.id === id
+          ? { ...a, text, charCount: text.length, updated_at: updated.updated_at }
+          : a
+      ))
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to update announcement')
+      console.error('Error updating announcement:', err)
+    }
   }
 
-  const saveAndPublish = () => {
-    // Mock save
-    console.log('Saved announcements:', announcements)
+  const createAnnouncement = async (text: string) => {
+    try {
+      setError(null)
+      const newAnnouncement = await dbHelpers.createAnnouncement(text)
+      setAnnouncements(prev => [...prev, {
+        id: newAnnouncement.id,
+        text: newAnnouncement.text,
+        charCount: newAnnouncement.char_count,
+        created_at: newAnnouncement.created_at,
+        updated_at: newAnnouncement.updated_at
+      }])
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to create announcement')
+      console.error('Error creating announcement:', err)
+    }
   }
+
+  const deleteAnnouncement = async (id: number) => {
+    try {
+      setError(null)
+      await dbHelpers.deleteAnnouncement(id)
+      setAnnouncements(prev => prev.filter(a => a.id !== id))
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to delete announcement')
+      console.error('Error deleting announcement:', err)
+    }
+  }
+
+  const clearAll = async () => {
+    try {
+      setError(null)
+      // Delete all announcements from database
+      for (const announcement of announcements) {
+        await dbHelpers.deleteAnnouncement(announcement.id)
+      }
+      setAnnouncements([])
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to clear announcements')
+      console.error('Error clearing announcements:', err)
+    }
+  }
+
+  const saveAndPublish = async () => {
+    try {
+      setError(null)
+      // All changes are already saved to database in real-time
+      console.log('All announcements are up to date')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to save announcements')
+      console.error('Error saving announcements:', err)
+    }
+  }
+
+  return {
+    announcements,
+    loading,
+    error,
+    updateAnnouncement,
+    createAnnouncement,
+    deleteAnnouncement,
+    clearAll,
+    saveAndPublish,
+    refresh: loadAnnouncements
+  }
+}
 
   return {
     announcements,

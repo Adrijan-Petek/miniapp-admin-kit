@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import ErrorBoundary from './components/ErrorBoundary'
 
 export const metadata: Metadata = {
   title: 'MiniApp Admin Kit',
@@ -14,7 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-slate-950 text-slate-50 min-h-screen">
-        {children}
+        <ErrorBoundary>
+          {children}
+        </ErrorBoundary>
       </body>
     </html>
   )

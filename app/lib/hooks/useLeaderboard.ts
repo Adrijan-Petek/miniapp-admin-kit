@@ -1,53 +1,123 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { dbHelpers } from '../supabase'
 
 export interface LeaderboardPlayer {
+  id?: number
   rank: number
   address: string
-  amount: string
+  score: number
+  created_at?: string
+  updated_at?: string
 }
 
 export function useLeaderboard() {
-  const [topPlayers, setTopPlayers] = useState<LeaderboardPlayer[]>([
-    { rank: 1, address: '0x...', amount: '' },
-    { rank: 2, address: '0x...', amount: '' },
-    { rank: 3, address: '0x...', amount: '' },
-    { rank: 4, address: '0x...', amount: '' },
-    { rank: 5, address: '0x...', amount: '' },
-    { rank: 6, address: '0x...', amount: '' },
-    { rank: 7, address: '0x...', amount: '' },
-    { rank: 8, address: '0x...', amount: '' },
-    { rank: 9, address: '0x...', amount: '' },
-    { rank: 10, address: '0x...', amount: '' }
-  ])
+  const [topPlayers, setTopPlayers] = useState<LeaderboardPlayer[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  const loadTop10 = () => {
-    // Mock load
-    console.log('Loading top 10 players')
+  // Load leaderboard from database
+  useEffect(() => {
+    loadTop10()
+  }, [])
+
+  const loadTop10 = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      const data = await dbHelpers.getLeaderboard(10)
+      const playersWithRank = data.map((player, index) => ({
+        id: player.id,
+        rank: index + 1,
+        address: player.address,
+        score: player.score,
+        created_at: player.created_at,
+        updated_at: player.updated_at
+      }))
+      setTopPlayers(playersWithRank)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load leaderboard')
+      console.error('Error loading leaderboard:', err)
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const addPlayer = (address: string, amount: string) => {
-    setTopPlayers(prev => [...prev, { rank: prev.length + 1, address, amount }])
+  const addPlayer = async (address: string, score: number) => {
+    try {
+      setError(null)
+      const newPlayer = await dbHelpers.updatePlayerScore(address, score)
+      // Refresh the leaderboard to get updated ranks
+      await loadTop10()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to add player')
+      console.error('Error adding player:', err)
+    }
   }
 
-  const removePlayer = (rank: number) => {
-    setTopPlayers(prev => prev.filter(p => p.rank !== rank))
+  const updatePlayerScore = async (address: string, score: number) => {
+    try {
+      setError(null)
+      await dbHelpers.updatePlayerScore(address, score)
+      // Refresh the leaderboard to get updated ranks
+      await loadTop10()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to update player score')
+      console.error('Error updating player score:', err)
+    }
   }
 
-  const creditRewards = () => {
-    // Mock credit
-    console.log('Crediting rewards to players')
+  const removePlayer = async (address: string) => {
+    try {
+      setError(null)
+      // Note: This would require a delete operation in the database
+      // For now, we'll set their score to 0
+      await dbHelpers.updatePlayerScore(address, 0)
+      // Refresh the leaderboard
+      await loadTop10()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to remove player')
+      console.error('Error removing player:', err)
+    }
   }
 
-  const syncLeaderboard = () => {
-    // Mock sync
-    console.log('Syncing leaderboard with Farcaster')
+  const creditRewards = async () => {
+    try {
+      setError(null)
+      // This would typically trigger a reward distribution process
+      // For now, we'll just log it
+      console.log('Crediting rewards to top players')
+      // You could implement actual reward crediting logic here
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to credit rewards')
+      console.error('Error crediting rewards:', err)
+    }
+  }
+
+  const syncLeaderboard = async () => {
+    try {
+      setError(null)
+      // This would sync with external systems like Farcaster
+      console.log('Syncing leaderboard with external systems')
+      await loadTop10() // Refresh after sync
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to sync leaderboard')
+      console.error('Error syncing leaderboard:', err)
+    }
   }
 
   return {
     topPlayers,
+    loading,
+    error,
     loadTop10,
     addPlayer,
+    updatePlayerScore,
     removePlayer,
+    creditRewards,
+    syncLeaderboard,
+    refresh: loadTop10
+  }
+}
     creditRewards,
     syncLeaderboard
   }

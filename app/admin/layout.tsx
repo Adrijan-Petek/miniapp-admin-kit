@@ -35,6 +35,9 @@ export default async function AdminLayout({
           <Link href="/admin/miniapps" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
             🎮 Mini Apps
           </Link>
+          <Link href="/admin/pages" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
+            📄 Pages
+          </Link>
           <Link href="/admin/treasury" className="block px-2.5 py-1.5 rounded-lg hover:bg-slate-800">
             💰 Treasury
           </Link>

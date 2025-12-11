@@ -24,72 +24,21 @@ export default function MiniAppsPage() {
 
   return (
     <div className="space-y-6">
-      <header className="flex justify-between items-start">
-        <div>
-          <h1 className="text-xl font-semibold mb-1">Mini Apps Manager</h1>
-          <p className="text-xs text-slate-400">
-            Manage and configure mini apps in your ecosystem.
-          </p>
-        </div>
+      <header>
+        <h1 className="text-xl font-semibold mb-1">Mini Apps Manager</h1>
+        <p className="text-xs text-slate-400">
+          Manage and configure mini apps in your ecosystem.
+        </p>
+      </header>
+
+      <div className="flex justify-end">
         <button
           onClick={() => setShowAddForm(true)}
           className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-xs font-medium rounded-lg"
         >
           + Add Mini App
         </button>
-      </header>
-
-      {showAddForm && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-slate-900 border border-slate-700 rounded-xl p-6 w-full max-w-md">
-            <h3 className="text-lg font-semibold mb-4">Add New Mini App</h3>
-            <div className="space-y-3">
-              <input
-                type="text"
-                placeholder="App Name"
-                value={newApp.name}
-                onChange={(e) => setNewApp(prev => ({ ...prev, name: e.target.value }))}
-                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded text-sm"
-              />
-              <input
-                type="text"
-                placeholder="Description"
-                value={newApp.description}
-                onChange={(e) => setNewApp(prev => ({ ...prev, description: e.target.value }))}
-                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded text-sm"
-              />
-              <input
-                type="text"
-                placeholder="URL Path (e.g., /games/match3)"
-                value={newApp.url}
-                onChange={(e) => setNewApp(prev => ({ ...prev, url: e.target.value }))}
-                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded text-sm"
-              />
-              <input
-                type="text"
-                placeholder="Category (e.g., Games, Commerce)"
-                value={newApp.category}
-                onChange={(e) => setNewApp(prev => ({ ...prev, category: e.target.value }))}
-                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded text-sm"
-              />
-            </div>
-            <div className="flex gap-2 mt-4">
-              <button
-                onClick={handleAdd}
-                className="flex-1 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-sm font-medium rounded"
-              >
-                Add App
-              </button>
-              <button
-                onClick={() => setShowAddForm(false)}
-                className="flex-1 px-3 py-2 bg-slate-700 hover:bg-slate-800 text-sm font-medium rounded"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      </div>
 
       <section className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
         <h2 className="text-sm font-semibold mb-4">🎮 Active Mini Apps ({miniApps.filter(app => app.status === 'active').length})</h2>
@@ -148,6 +97,59 @@ export default function MiniAppsPage() {
           ))}
         </div>
       </section>
+
+      {showAddForm && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-slate-900 border border-slate-700 rounded-xl p-6 w-full max-w-md">
+            <h3 className="text-lg font-semibold mb-4">Add New Mini App</h3>
+            <div className="space-y-3">
+              <input
+                type="text"
+                placeholder="App Name"
+                value={newApp.name}
+                onChange={(e) => setNewApp(prev => ({ ...prev, name: e.target.value }))}
+                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded text-sm"
+              />
+              <input
+                type="text"
+                placeholder="Description"
+                value={newApp.description}
+                onChange={(e) => setNewApp(prev => ({ ...prev, description: e.target.value }))}
+                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded text-sm"
+              />
+              <input
+                type="text"
+                placeholder="URL Path (e.g., /games/match3)"
+                value={newApp.url}
+                onChange={(e) => setNewApp(prev => ({ ...prev, url: e.target.value }))}
+                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded text-sm"
+              />
+              <input
+                type="text"
+                placeholder="Category (e.g., Games, Commerce)"
+                value={newApp.category}
+                onChange={(e) => setNewApp(prev => ({ ...prev, category: e.target.value }))}
+                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded text-sm"
+              />
+            </div>
+            <div className="flex gap-2 mt-4">
+              <button
+                onClick={handleAdd}
+                className="flex-1 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-sm font-medium rounded"
+              >
+                Add App
+              </button>
+              <button
+                onClick={() => setShowAddForm(false)}
+                className="flex-1 px-3 py-2 bg-slate-700 hover:bg-slate-800 text-sm font-medium rounded"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   )
 }

@@ -31,20 +31,19 @@ export default function PublicPage() {
             </div>
           </div>
         )}
-        {settings.showGames && (
+        {settings.showGames && settings.menuItems.filter(item => item.enabled).length > 0 && (
           <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-gray-100 p-4 rounded-lg">
-              <h3 className="text-xl font-semibold text-black">🎮 Match-3</h3>
-              <p className="text-gray-600">Classic puzzle game</p>
-            </div>
-            <div className="bg-gray-100 p-4 rounded-lg">
-              <h3 className="text-xl font-semibold text-black">🃏 Card Game</h3>
-              <p className="text-gray-600">Fun card matching</p>
-            </div>
-            <div className="bg-gray-100 p-4 rounded-lg">
-              <h3 className="text-xl font-semibold text-black">📅 Daily Claim</h3>
-              <p className="text-gray-600">Daily rewards</p>
-            </div>
+            {settings.menuItems.filter(item => item.enabled).map(item => (
+              <a
+                key={item.id}
+                href={item.url}
+                className="bg-gradient-to-br from-blue-50 to-indigo-100 hover:from-blue-100 hover:to-indigo-200 p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-blue-200"
+              >
+                <div className="text-3xl mb-2">{item.icon}</div>
+                <h3 className="text-xl font-semibold text-black mb-1">{item.title}</h3>
+                <p className="text-gray-600 text-sm">{item.description}</p>
+              </a>
+            ))}
           </div>
         )}
         {settings.showAdminLogin && (

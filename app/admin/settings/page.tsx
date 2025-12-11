@@ -188,6 +188,111 @@ export default function SettingsPage() {
         </div>
       </section>
 
+      {/* Menu Management */}
+      <section className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
+        <h2 className="text-sm font-semibold mb-3">🍽️ Menu Management</h2>
+        <div className="space-y-4">
+          {settings.menuItems.map((item, index) => (
+            <div key={item.id} className="border border-slate-700 rounded-lg p-3 bg-slate-800/50">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs mb-1">Title</label>
+                  <input
+                    value={item.title}
+                    onChange={(e) => {
+                      const newItems = [...settings.menuItems]
+                      newItems[index].title = e.target.value
+                      updateSetting('menuItems', newItems)
+                    }}
+                    className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs"
+                    placeholder="Menu Item Title"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs mb-1">Icon (emoji)</label>
+                  <input
+                    value={item.icon}
+                    onChange={(e) => {
+                      const newItems = [...settings.menuItems]
+                      newItems[index].icon = e.target.value
+                      updateSetting('menuItems', newItems)
+                    }}
+                    className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs"
+                    placeholder="🎮"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs mb-1">Description</label>
+                  <input
+                    value={item.description}
+                    onChange={(e) => {
+                      const newItems = [...settings.menuItems]
+                      newItems[index].description = e.target.value
+                      updateSetting('menuItems', newItems)
+                    }}
+                    className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs"
+                    placeholder="Short description"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs mb-1">URL</label>
+                  <input
+                    value={item.url}
+                    onChange={(e) => {
+                      const newItems = [...settings.menuItems]
+                      newItems[index].url = e.target.value
+                      updateSetting('menuItems', newItems)
+                    }}
+                    className="w-full rounded border border-slate-600 bg-slate-900 px-2 py-2 text-xs"
+                    placeholder="/games/match3"
+                  />
+                </div>
+              </div>
+              <div className="flex items-center justify-between mt-3">
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    checked={item.enabled}
+                    onChange={(e) => {
+                      const newItems = [...settings.menuItems]
+                      newItems[index].enabled = e.target.checked
+                      updateSetting('menuItems', newItems)
+                    }}
+                    className="rounded border-slate-600 bg-slate-900"
+                  />
+                  <span className="text-xs">Enabled</span>
+                </label>
+                <button
+                  onClick={() => {
+                    const newItems = settings.menuItems.filter((_, i) => i !== index)
+                    updateSetting('menuItems', newItems)
+                  }}
+                  className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-xs rounded"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))}
+          <button
+            onClick={() => {
+              const newItem = {
+                id: Date.now().toString(),
+                title: 'New Menu Item',
+                description: 'Description',
+                icon: '⭐',
+                url: '/',
+                enabled: true
+              }
+              updateSetting('menuItems', [...settings.menuItems, newItem])
+            }}
+            className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded"
+          >
+            Add Menu Item
+          </button>
+        </div>
+      </section>
+
       {/* Social Links */}
       <section className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
         <h2 className="text-sm font-semibold mb-3">🔗 Social Links</h2>

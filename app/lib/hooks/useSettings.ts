@@ -8,6 +8,15 @@ export interface CustomPage {
   published: boolean
 }
 
+export interface MenuItem {
+  id: string
+  title: string
+  description: string
+  icon: string
+  url: string
+  enabled: boolean
+}
+
 export interface Settings {
   // Theme & Branding
   themeColor: string
@@ -59,6 +68,7 @@ export interface Settings {
   showAnnouncements: boolean
   showGames: boolean
   showAdminLogin: boolean
+  menuItems: MenuItem[]
   customPages: CustomPage[]
 }
 
@@ -114,6 +124,32 @@ export function useSettings() {
     showAnnouncements: true,
     showGames: true,
     showAdminLogin: true,
+    menuItems: [
+      {
+        id: '1',
+        title: '🎮 Match-3',
+        description: 'Classic puzzle game',
+        icon: '🎮',
+        url: '/games/match3',
+        enabled: true
+      },
+      {
+        id: '2',
+        title: '🃏 Card Game',
+        description: 'Fun card matching',
+        icon: '🃏',
+        url: '/games/cards',
+        enabled: true
+      },
+      {
+        id: '3',
+        title: '📅 Daily Claim',
+        description: 'Daily rewards',
+        icon: '📅',
+        url: '/daily',
+        enabled: true
+      }
+    ],
     customPages: [
       {
         id: 1,

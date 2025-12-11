@@ -38,6 +38,7 @@ A professional, full-stack admin panel template for managing mini-apps, built wi
 - Responsive design with dropdowns and smooth transitions
 - Emoji icons and professional layout
 - Frontend edit mode for direct page customization
+- **Hidden Admin Access**: Secret 5-click logo trigger for admin panel
 - Advanced settings panel with custom CSS/JS injection
 
 ## 🚀 Quick Start
@@ -324,6 +325,9 @@ Log in with your `ADMIN_USERNAME` / `ADMIN_PASSWORD`.
 
 ## 🔐 Auth Model
 
+- **Hidden Admin Access**: Admin panel is completely hidden from regular users
+- **Secret Login Trigger**: Click the main logo 5 times to reveal admin login modal
+- **No Public Admin Links**: All visible admin access points removed for security
 - Single admin user (no registration)
 - Credentials from environment:
   - `ADMIN_USERNAME`
@@ -335,12 +339,19 @@ Log in with your `ADMIN_USERNAME` / `ADMIN_PASSWORD`.
   - If invalid or missing → redirect to `/login`
   - If valid → show admin UI with username in sidebar
 
+### Security Features
+- **Stealth Mode**: Admin interface only accessible through secret trigger
+- **Click Counter**: 5-click sequence required to access admin login
+- **Modal Authentication**: Login happens in popup without page redirect
+- **Automatic Reset**: Click counter resets after successful access or modal close
+
 You can extend this to:
 
 - Multiple admins
 - Roles/permissions
 - External OAuth/SSO
 - IP allowlisting
+- Time-based access restrictions
 
 ---
 

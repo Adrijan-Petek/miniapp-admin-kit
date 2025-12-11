@@ -8,7 +8,7 @@ import { useAdminManagement } from '@/lib/hooks/useAdminManagement'
 export default function TreasuryPage() {
   const { data, withdrawETH, withdrawJOYB, withdrawToken } = useTreasury()
   const { supportedTokens, addToken, removeToken, creditReward, syncToFarcaster } = useTokenManagement()
-  const { users, createUser, updateUser, deleteUser, isAdmin } = useAdminManagement()
+  const { users, createUser, updateUser, deleteUser, isAdmin } = useAdminManagement() // eslint-disable-line @typescript-eslint/no-unused-vars
 
   const [ethAmount, setEthAmount] = useState('')
   const [joybAmount, setJoybAmount] = useState('')

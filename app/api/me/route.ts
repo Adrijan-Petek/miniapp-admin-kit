@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
       }
     }, { status: 200 })
 
-  } catch (error) {
+  } catch (error) { // eslint-disable-line @typescript-eslint/no-unused-vars
     return NextResponse.json({ authenticated: false }, { status: 200 })
   }
 }

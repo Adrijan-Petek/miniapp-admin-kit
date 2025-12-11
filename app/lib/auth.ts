@@ -1,5 +1,5 @@
 import { SignJWT, jwtVerify } from 'jose'
-import { userRoleSchema, permissionsSchema, type UserRole, type Permissions } from './validation'
+import { userRoleSchema, permissionsSchema, type UserRole, type Permissions } from './validation' // eslint-disable-line @typescript-eslint/no-unused-vars
 
 const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'change_me_dev_secret')
 

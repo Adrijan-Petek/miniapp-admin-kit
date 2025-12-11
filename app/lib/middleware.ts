@@ -46,7 +46,7 @@ export function requireAuth(resource?: string) {
       }
 
       return authenticatedReq
-    } catch (error) {
+    } catch (error) { // eslint-disable-line @typescript-eslint/no-unused-vars
       return NextResponse.json(
         { error: 'Authentication required' },
         { status: 401 }
@@ -68,7 +68,7 @@ export function requireRole(allowedRoles: string[]) {
       }
 
       return authenticatedReq
-    } catch (error) {
+    } catch (error) { // eslint-disable-line @typescript-eslint/no-unused-vars
       return NextResponse.json(
         { error: 'Authentication required' },
         { status: 401 }

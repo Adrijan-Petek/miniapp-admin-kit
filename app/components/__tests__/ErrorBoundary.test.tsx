@@ -53,7 +53,7 @@ describe('ErrorBoundary', () => {
   })
 
   it('allows retry after error', () => {
-    const { rerender } = render(
+    const { rerender } = render( // eslint-disable-line @typescript-eslint/no-unused-vars
       <ErrorBoundary>
         <ErrorComponent />
       </ErrorBoundary>

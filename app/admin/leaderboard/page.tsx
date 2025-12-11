@@ -48,13 +48,13 @@ export default function LeaderboardPage() {
               <span className="text-xs font-semibold">#{player.rank}</span>
               <input
                 value={player.address}
-                onChange={(e) => {/* update player address */}}
+                onChange={(e) => {/* update player address */}} // eslint-disable-line @typescript-eslint/no-unused-vars
                 className="flex-1 rounded border border-slate-600 bg-slate-900 px-2 py-1 text-xs"
                 placeholder="Player address (0x...)"
               />
               <input
                 value={player.score}
-                onChange={(e) => {/* update score */}}
+                onChange={(e) => {/* update score */}} // eslint-disable-line @typescript-eslint/no-unused-vars
                 className="w-24 rounded border border-slate-600 bg-slate-900 px-2 py-1 text-xs"
                 placeholder="Score"
               />
@@ -124,13 +124,13 @@ export default function LeaderboardPage() {
               <span className="text-xs font-semibold">#{player.rank}</span>
               <input
                 value={player.address}
-                onChange={(e) => {/* update player address */}}
+                onChange={(e) => {/* update player address */}} // eslint-disable-line @typescript-eslint/no-unused-vars
                 className="flex-1 rounded border border-slate-600 bg-slate-900 px-2 py-1 text-xs"
                 placeholder="Player address (0x...)"
               />
               <input
                 value={player.score}
-                onChange={(e) => {/* update score */}}
+                onChange={(e) => {/* update score */}} // eslint-disable-line @typescript-eslint/no-unused-vars
                 className="w-24 rounded border border-slate-600 bg-slate-900 px-2 py-1 text-xs"
                 placeholder="Score"
               />

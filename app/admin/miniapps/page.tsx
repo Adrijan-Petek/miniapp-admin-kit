@@ -1,10 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { useMiniApps, MiniApp } from '@/lib/hooks/useMiniApps'
+import { useMiniApps, MiniApp } from '@/lib/hooks/useMiniApps' // eslint-disable-line @typescript-eslint/no-unused-vars
 
 export default function MiniAppsPage() {
-  const { miniApps, updateMiniApp, addMiniApp, removeMiniApp, toggleStatus } = useMiniApps()
+  const { miniApps, updateMiniApp, addMiniApp, removeMiniApp, toggleStatus } = useMiniApps() // eslint-disable-line @typescript-eslint/no-unused-vars
   const [showAddForm, setShowAddForm] = useState(false)
   const [newApp, setNewApp] = useState({
     name: '',

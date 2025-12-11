@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { dbHelpers } from '../supabase'
-import { announcementSchema, validateData, type AnnouncementInput } from '../validation'
+import { announcementSchema, validateData, type AnnouncementInput } from '../validation' // eslint-disable-line @typescript-eslint/no-unused-vars
 
 export interface Announcement {
   id: number

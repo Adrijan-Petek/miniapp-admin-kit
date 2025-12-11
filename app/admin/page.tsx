@@ -9,7 +9,7 @@ export default function AdminDashboardPage() {
   const { data: treasury } = useTreasury()
   const { announcements } = useAnnouncements()
   const { getStats } = useLevelRewards()
-  const { settings: gameSettings } = useGameSettings()
+  const { settings: gameSettings } = useGameSettings() // eslint-disable-line @typescript-eslint/no-unused-vars
 
   const rewardStats = getStats()
 

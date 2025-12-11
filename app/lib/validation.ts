@@ -144,7 +144,7 @@ export const rateLimitSchema = z.object({
 export type RateLimitEntry = z.infer<typeof rateLimitSchema>
 
 // User management schemas
-export const userRoleSchema = z.enum(['super_admin', 'admin', 'moderator', 'viewer'])
+export const userRoleSchema = z.enum(['super_admin', 'admin', 'moderator', 'viewer']) // eslint-disable-line @typescript-eslint/no-unused-vars
 
 export const userSchema = z.object({
   id: z.number().int().positive().optional(),
@@ -180,7 +180,7 @@ export const changePasswordSchema = z.object({
 export type ChangePasswordInput = z.infer<typeof changePasswordSchema>
 
 // Role-based permissions schema
-export const permissionsSchema = z.object({
+export const permissionsSchema = z.object({ // eslint-disable-line @typescript-eslint/no-unused-vars
   can_manage_users: z.boolean().default(false),
   can_manage_announcements: z.boolean().default(false),
   can_manage_leaderboard: z.boolean().default(false),

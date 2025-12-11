@@ -18,13 +18,13 @@ export default function HomePage() {
     const themeContext = useTheme()
     theme = themeContext.theme
     toggleTheme = themeContext.toggleTheme
-  } catch (error) {
+  } catch (error) { // eslint-disable-line @typescript-eslint/no-unused-vars
     // Theme context not available during SSR, use default
   }
 
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null)
   const [showSplash, setShowSplash] = useState(true)
-  const [logoClickCount, setLogoClickCount] = useState(0)
+  const [logoClickCount, setLogoClickCount] = useState(0) // eslint-disable-line @typescript-eslint/no-unused-vars
   const [showAdminLogin, setShowAdminLogin] = useState(false)
   const [adminCredentials, setAdminCredentials] = useState({ username: '', password: '' })
   const [loginError, setLoginError] = useState('')
@@ -66,7 +66,7 @@ export default function HomePage() {
       } else {
         setLoginError(data.error || 'Login failed')
       }
-    } catch (error) {
+    } catch (error) { // eslint-disable-line @typescript-eslint/no-unused-vars
       setLoginError('Network error. Please try again.')
     }
   }

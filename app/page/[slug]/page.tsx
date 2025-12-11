@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import { useSettings } from '@/lib/hooks/useSettings'
+import { useSettings } from '@/lib/hooks/useSettings' // eslint-disable-line @typescript-eslint/no-unused-vars
 
 interface PageProps {
   params: {

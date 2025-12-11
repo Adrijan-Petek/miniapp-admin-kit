@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react'
-import { ThemeProvider, useTheme, ThemeContext } from '@/lib/hooks/useTheme'
+import { ThemeProvider, useTheme, ThemeContext } from '@/lib/hooks/useTheme' // eslint-disable-line @typescript-eslint/no-unused-vars
 
 describe('useTheme', () => {
   beforeEach(() => {

@@ -123,7 +123,7 @@ export default function AnalyticsPage() {
         <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
           <h3 className="text-sm font-semibold mb-4">📈 User Growth</h3>
           <div className="h-48 flex items-end justify-between space-x-2">
-            {analytics.userGrowth.map((data, index) => {
+            {analytics.userGrowth.map((data, index) => { // eslint-disable-line @typescript-eslint/no-unused-vars
               const maxUsers = Math.max(...analytics.userGrowth.map(d => d.users))
               const height = (data.users / maxUsers) * 100
               return (

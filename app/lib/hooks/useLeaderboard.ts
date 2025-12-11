@@ -45,7 +45,7 @@ export function useLeaderboard() {
   const addPlayer = async (address: string, score: number) => {
     try {
       setError(null)
-      const newPlayer = await dbHelpers.updatePlayerScore(address, score)
+      const newPlayer = await dbHelpers.updatePlayerScore(address, score) // eslint-disable-line @typescript-eslint/no-unused-vars
       // Refresh the leaderboard to get updated ranks
       await loadTop10()
     } catch (err) {

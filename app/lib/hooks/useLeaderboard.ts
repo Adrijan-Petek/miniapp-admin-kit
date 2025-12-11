@@ -118,7 +118,3 @@ export function useLeaderboard() {
     refresh: loadTop10
   }
 }
-    creditRewards,
-    syncLeaderboard
-  }
-}

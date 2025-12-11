@@ -8,7 +8,7 @@ import { useAdminManagement } from '@/lib/hooks/useAdminManagement'
 export default function TreasuryPage() {
   const { data, withdrawETH, withdrawJOYB, withdrawToken } = useTreasury()
   const { supportedTokens, addToken, removeToken, creditReward, syncToFarcaster } = useTokenManagement()
-  const { admins, addAdmin, removeAdmin } = useAdminManagement()
+  const { users, createUser, updateUser, deleteUser, isAdmin } = useAdminManagement()
 
   const [ethAmount, setEthAmount] = useState('')
   const [joybAmount, setJoybAmount] = useState('')
@@ -139,7 +139,9 @@ export default function TreasuryPage() {
           <div>
             <h3 className="text-xs font-semibold mb-1">Current Admins:</h3>
             <ul className="text-xs text-slate-300">
-              {admins.map((admin, i) => <li key={i}>{admin}</li>)}
+              {users.filter(user => isAdmin(user)).map((admin) => (
+                <li key={admin.id}>{admin.username} ({admin.email}) - {admin.role}</li>
+              ))}
             </ul>
           </div>
         </div>

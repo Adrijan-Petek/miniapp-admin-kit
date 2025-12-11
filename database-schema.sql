@@ -98,9 +98,95 @@ ALTER TABLE mini_apps ENABLE ROW LEVEL SECURITY;
 ALTER TABLE treasury ENABLE ROW LEVEL SECURITY;
 
 -- Create policies (adjust based on your authentication needs)
--- For now, allow all operations (you should restrict these based on your auth system)
-CREATE POLICY "Allow all operations on announcements" ON announcements FOR ALL USING (true);
-CREATE POLICY "Allow all operations on leaderboard" ON leaderboard FOR ALL USING (true);
-CREATE POLICY "Allow all operations on level_rewards" ON level_rewards FOR ALL USING (true);
-CREATE POLICY "Allow all operations on mini_apps" ON mini_apps FOR ALL USING (true);
-CREATE POLICY "Allow all operations on treasury" ON treasury FOR ALL USING (true);
+-- Create users table for multi-user authentication
+CREATE TABLE IF NOT EXISTS users (
+  id SERIAL PRIMARY KEY,
+  username TEXT NOT NULL UNIQUE,
+  email TEXT NOT NULL UNIQUE,
+  password_hash TEXT NOT NULL,
+  role TEXT NOT NULL CHECK (role IN ('super_admin', 'admin', 'moderator', 'viewer')),
+  is_active BOOLEAN NOT NULL DEFAULT true,
+  last_login TIMESTAMP WITH TIME ZONE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Create api_keys table for API access
+CREATE TABLE IF NOT EXISTS api_keys (
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL,
+  key TEXT NOT NULL UNIQUE,
+  permissions JSONB NOT NULL DEFAULT '{}',
+  is_active BOOLEAN NOT NULL DEFAULT true,
+  created_by INTEGER NOT NULL REFERENCES users(id),
+  expires_at TIMESTAMP WITH TIME ZONE,
+  last_used TIMESTAMP WITH TIME ZONE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Create audit_logs table for security tracking
+CREATE TABLE IF NOT EXISTS audit_logs (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id),
+  action TEXT NOT NULL,
+  resource TEXT NOT NULL,
+  resource_id TEXT,
+  details JSONB,
+  ip_address INET,
+  user_agent TEXT,
+  timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Create sessions table for session management
+CREATE TABLE IF NOT EXISTS sessions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id INTEGER NOT NULL REFERENCES users(id),
+  token TEXT NOT NULL,
+  expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
+  ip_address INET,
+  user_agent TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Insert default super admin user (password: admin123 - CHANGE THIS IN PRODUCTION!)
+INSERT INTO users (username, email, password_hash, role) VALUES
+  ('superadmin', 'admin@example.com', '$2b$10$rOz8vZKZ8vZKZ8vZKZ8vZKZ8vZKZ8vZKZ8vZKZ8vZKZ8vZKZ8vZK', 'super_admin')
+ON CONFLICT (username) DO NOTHING;
+
+-- Add updated_at triggers for new tables
+CREATE TRIGGER update_users_updated_at BEFORE UPDATE ON users FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+CREATE TRIGGER update_api_keys_updated_at BEFORE UPDATE ON api_keys FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- Enable Row Level Security for new tables
+ALTER TABLE users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE api_keys ENABLE ROW LEVEL SECURITY;
+ALTER TABLE audit_logs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE sessions ENABLE ROW LEVEL SECURITY;
+
+-- Create policies for users table
+CREATE POLICY "Users can view their own data" ON users FOR SELECT USING (auth.uid()::text = id::text);
+CREATE POLICY "Super admins can manage all users" ON users FOR ALL USING (
+  EXISTS (
+    SELECT 1 FROM users WHERE id = auth.uid() AND role = 'super_admin'
+  )
+);
+
+-- Create policies for api_keys table
+CREATE POLICY "Users can view their own API keys" ON api_keys FOR SELECT USING (created_by = auth.uid());
+CREATE POLICY "Admins can manage API keys" ON api_keys FOR ALL USING (
+  EXISTS (
+    SELECT 1 FROM users WHERE id = auth.uid() AND role IN ('super_admin', 'admin')
+  )
+);
+
+-- Create policies for audit_logs table
+CREATE POLICY "Admins can view audit logs" ON audit_logs FOR SELECT USING (
+  EXISTS (
+    SELECT 1 FROM users WHERE id = auth.uid() AND role IN ('super_admin', 'admin')
+  )
+);
+
+-- Create policies for sessions table
+CREATE POLICY "Users can view their own sessions" ON sessions FOR SELECT USING (user_id = auth.uid());
+CREATE POLICY "Users can manage their own sessions" ON sessions FOR ALL USING (user_id = auth.uid());

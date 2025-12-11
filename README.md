@@ -67,10 +67,8 @@ A professional, full-stack admin panel template for managing mini-apps, built wi
 4. **Set environment variables**
    Create `.env.local`:
    ```bash
-   # Admin Authentication
-   ADMIN_USERNAME="admin"
-   ADMIN_PASSWORD="your-secure-password"
-   ADMIN_JWT_SECRET="your-long-random-jwt-secret"
+   # JWT Secret (generate a long random string for security)
+   JWT_SECRET="your-very-long-random-jwt-secret-here"
 
    # Supabase Configuration
    NEXT_PUBLIC_SUPABASE_URL="your-supabase-project-url"
@@ -78,21 +76,28 @@ A professional, full-stack admin panel template for managing mini-apps, built wi
    SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
    ```
 
-5. **Run development server**
+5. **Set up the database**
+   ```bash
+   npm run db:setup
+   ```
+
+6. **Run development server**
    ```bash
    npm run dev
    ```
 
-6. **Access the app**
+7. **Access the app**
    - Public page: `http://localhost:3000`
    - Admin login: Click "Admin Login" or go to `/login`
-   - Default credentials: `admin` / `password`
+   - Default super admin: `superadmin` / `admin123` (change immediately!)
 
 ## Configuration
 
-### Auth Settings
-- Single admin user authentication via JWT
-- Environment-based credentials
+### Authentication Settings
+- **Multi-user support** with role-based access control
+- **JWT-based authentication** with configurable token expiration
+- **Password complexity requirements** and bcrypt hashing
+- **Session management** with secure HTTP-only cookies
 
 ### Theme Customization
 - Color picker for theme color
@@ -362,18 +367,74 @@ Log in with your `ADMIN_USERNAME` / `ADMIN_PASSWORD`.
   - If valid → show admin UI with username in sidebar
 
 ### Security Features
-- **Stealth Mode**: Admin interface only accessible through secret trigger
-- **Click Counter**: 5-click sequence required to access admin login
-- **Modal Authentication**: Login happens in popup without page redirect
-- **Automatic Reset**: Click counter resets after successful access or modal close
+- **Multi-User Authentication**: Support for multiple admin users with role-based access control
+- **Role-Based Access Control (RBAC)**: Four user roles (super_admin, admin, moderator, viewer) with granular permissions
+- **JWT Authentication**: Secure token-based authentication with configurable expiration
+- **Password Security**: Bcrypt hashing with complexity requirements
+- **Session Management**: Secure session handling with automatic cleanup
+- **Audit Logging**: Comprehensive logging of all admin actions for security tracking
+- **API Key Management**: Secure API access with permission-based keys
+- **Input Validation**: Zod schema validation for all user inputs and API requests
+- **SQL Injection Protection**: Parameterized queries and input sanitization
+- **XSS Prevention**: Input sanitization and Content Security Policy ready
+- **Rate Limiting**: Built-in rate limiting infrastructure for API protection
+
+#### User Roles & Permissions
+
+| Role | Users | Announcements | Leaderboard | Mini-apps | Rewards | Treasury | Settings | Analytics |
+|------|-------|---------------|-------------|-----------|---------|----------|----------|-----------|
+| **super_admin** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **admin** | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **moderator** | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| **viewer** | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+
+#### Security Setup
+
+1. **Database Setup**:
+   ```bash
+   npm run db:setup
+   ```
+
+2. **Default Super Admin**:
+   - Username: `superadmin`
+   - Password: `admin123`
+   - Email: `admin@example.com`
+   - **⚠️ Change these credentials immediately after first login!**
+
+3. **Environment Variables**:
+   ```bash
+   # JWT Secret (generate a long random string)
+   JWT_SECRET="your-very-long-random-jwt-secret-here"
+
+   # Supabase Configuration
+   NEXT_PUBLIC_SUPABASE_URL="your-supabase-project-url"
+   NEXT_PUBLIC_SUPABASE_ANON_KEY="your-supabase-anon-key"
+   SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
+   ```
+
+#### API Security
+
+All API routes now include:
+- **Authentication Middleware**: Automatic token verification
+- **Permission Checking**: Resource-based access control
+- **Input Validation**: Zod schema validation with detailed error messages
+- **Audit Logging**: All actions logged with user context
+- **Rate Limiting**: Configurable rate limits per endpoint
+
+#### Authentication Flow
+
+1. **Login**: Users authenticate with username/password
+2. **Token Generation**: JWT token created with user info and permissions
+3. **Session Management**: Secure HTTP-only cookies with automatic expiration
+4. **Permission Checks**: Every action verified against user permissions
+5. **Audit Trail**: All actions logged for security monitoring
 
 You can extend this to:
-
-- Multiple admins
-- Roles/permissions
-- External OAuth/SSO
-- IP allowlisting
+- External OAuth/SSO integration
+- Multi-factor authentication (MFA)
+- IP allowlisting and geo-blocking
 - Time-based access restrictions
+- Advanced audit and compliance reporting
 
 ---
 

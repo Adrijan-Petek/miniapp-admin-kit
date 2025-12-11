@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { dbHelpers } from '../supabase'
+import { announcementSchema, validateData, type AnnouncementInput } from '../validation'
 
 export interface Announcement {
   id: number
@@ -42,6 +43,13 @@ export function useAnnouncements() {
   const updateAnnouncement = async (id: number, text: string) => {
     try {
       setError(null)
+
+      // Validate input
+      const validation = validateData(announcementSchema.pick({ text: true }), { text })
+      if (!validation.success) {
+        throw new Error(`Validation failed: ${validation.errors.issues.map(i => i.message).join(', ')}`)
+      }
+
       const updated = await dbHelpers.updateAnnouncement(id, text)
       setAnnouncements(prev => prev.map(a =>
         a.id === id
@@ -57,6 +65,13 @@ export function useAnnouncements() {
   const createAnnouncement = async (text: string) => {
     try {
       setError(null)
+
+      // Validate input
+      const validation = validateData(announcementSchema.pick({ text: true }), { text })
+      if (!validation.success) {
+        throw new Error(`Validation failed: ${validation.errors.issues.map(i => i.message).join(', ')}`)
+      }
+
       const newAnnouncement = await dbHelpers.createAnnouncement(text)
       setAnnouncements(prev => [...prev, {
         id: newAnnouncement.id,
@@ -74,6 +89,12 @@ export function useAnnouncements() {
   const deleteAnnouncement = async (id: number) => {
     try {
       setError(null)
+
+      // Validate ID
+      if (!id || id <= 0) {
+        throw new Error('Invalid announcement ID')
+      }
+
       await dbHelpers.deleteAnnouncement(id)
       setAnnouncements(prev => prev.filter(a => a.id !== id))
     } catch (err) {
@@ -117,13 +138,5 @@ export function useAnnouncements() {
     clearAll,
     saveAndPublish,
     refresh: loadAnnouncements
-  }
-}
-
-  return {
-    announcements,
-    updateAnnouncement,
-    clearAll,
-    saveAndPublish
   }
 }
